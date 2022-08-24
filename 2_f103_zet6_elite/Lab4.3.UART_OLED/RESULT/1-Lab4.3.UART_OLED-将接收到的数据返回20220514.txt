@@ -1,0 +1,31 @@
+//ascii码
+69 6E 70 75 74 0D 0A //input\r\n
+69 6E 70 75 74 0D 0A 
+69 6E 70 75 74 0D 0A 
+0D 0A C4 FA B7 A2 CB CD B5 C4 CF FB CF A2 CE AA 3A 0D 0A 0D //("\r\n您发送的消息为:\r\n\r\n")【丢失最后一个0xa】
+61 62 63 64 65 0D 0A 0D 0A 
+69 6E 70 75 74 0D 0A 
+69 6E 70 75 74 0D 0A 
+0D 0A C4 FA B7 A2 CB CD B5 C4 CF FB CF A2 CE AA 3A 0D 0A 0D 
+61 62 63 64 65 0D 0A 0D 0A 
+69 6E 70 75 74 0D 0A 
+69 6E 70 75 74 0D 0A 
+
+//字符码
+input
+input
+input
+
+您发送的消息为:
+
+abcde
+
+input
+input
+
+您发送的消息为:
+
+abcde
+
+input
+input

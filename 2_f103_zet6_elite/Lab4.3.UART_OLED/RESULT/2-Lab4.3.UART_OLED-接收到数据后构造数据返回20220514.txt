@@ -1,0 +1,30 @@
+//ascii码
+69 6E 70 75 74 0D 0A 69 6E 70 75 74 0D 0A 0D 0A 73 65 6E 64 0D 61 63 65 67 69 71 73 75 77 79 0D 0A 69 6E 70 75 74 0D 0A 0D 0A 73 65 6E 64 0D 61 63 65 67 69 71 73 75 77 79 0D 0A 69 6E 70 75 74 0D 0A 69 6E 70 75 74 0D 0A 
+
+//字符码
+input
+input
+
+send
+acegiqsuwy
+input
+
+send
+acegiqsuwy
+input
+input
+
+//解析
+69 6E 70 75 74 0D 0A //input
+69 6E 70 75 74 0D 0A  //input \r \n
+0D 0A 73 65 6E 64 0D //\r\n send \r 【\n没有了】
+61 63 65 67 69 71 73 75 77 79 0D 0A //构造的10个字符, \r\n是哪里填充的？
+69 6E 70 75 74 0D 0A  //input\r\n
+0D 0A 73 65 6E 64 0D //\r\n send \r
+61 63 65 67 69 71 73 75 77 79 0D 0A //构造的10个字符
+69 6E 70 75 74 0D 0A //input\r \n
+69 6E 70 75 74 0D 0A //input\r \n
+
+
+// 注释：
+ASCII码：0xd表示CR回车\r，0xa表示 LF换行\n
