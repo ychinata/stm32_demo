@@ -12,5 +12,7 @@ void Serial_Printf(char *format, ...);
 // ²âÊÔº¯Êý
 void Serial_TxOnly_Test(void);
 void Serial_RxOnlyScan_Test(void);
+void Serial_TRx_Test(void);
+
 
 #endif

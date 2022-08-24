@@ -3,11 +3,22 @@
 #include <stdarg.h> //可变参数头文件
 #include "OLED.h"
 
-/************************************************
+
+/**************************
+ *     全局变量
+ ***************************/
+uint8_t g_Serial_RxData;
+uint8_t g_Serial_RxFlag;
+
+/**************************
+ *     内部函数定义
+ ***************************/
+
+/*****
 Date: 2022.8.23
 Author: h00421956
 Func:串口初始化
-************************************************/
+ *****/
 void Serial_Init(void) 
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
@@ -23,7 +34,7 @@ void Serial_Init(void)
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);	
-	
+	// usart配置
 	USART_InitTypeDef USART_InitStructure;
 	USART_InitStructure.USART_BaudRate = 9600;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
@@ -32,6 +43,17 @@ void Serial_Init(void)
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
+	
+	// 中断配置
+	USART_ITConfig(USART1, USART_IT_RXNE, ENABLE);  // 使能串口接收中断
+	
+	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);	
+	NVIC_InitTypeDef NVIC_InitStructure;
+	NVIC_InitStructure.NVIC_IRQChannel = USART1_IRQn;
+	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE;
+	NVIC_InitStructure.NVIC_IRQChannelPreemptionPriority = 1;
+	NVIC_InitStructure.NVIC_IRQChannelSubPriority = 1;
+	NVIC_Init(&NVIC_InitStructure);
 	
 	// usart使能
 	USART_Cmd(USART1, ENABLE);
@@ -80,7 +102,6 @@ Date: 2022.8.24
 Author: h00421956
 Func:计算x^y,即x的y次方 
 ************************************************/
-
 uint32_t Serial_Pow(uint32_t x, uint32_t y)
 {
 	uint32_t result = 1;
@@ -134,6 +155,50 @@ void Serial_Printf(char *format, ...)
 /************************************************
 Date: 2022.8.24
 Author: h00421956
+Func:串口接收功能：获取全局变量接收标志位
+************************************************/
+uint8_t Serial_GetRxFlag(void)
+{
+	if (g_Serial_RxFlag == 1) {
+		// 自动清零
+		g_Serial_RxFlag = 0;
+		return 1;
+	}
+	return 0;
+}
+
+/************************************************
+Date: 2022.8.24
+Author: h00421956
+Func:串口接收功能：获取全局变量接收数据
+************************************************/
+uint8_t Serial_GetRxData(void)
+{
+	return g_Serial_RxData;
+}
+
+/*****
+Date: 2022.8.244
+Author: h00421956
+Func:串口接收中断函数
+ *****/
+void USART1_IRQHandler(void)
+{
+	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
+		g_Serial_RxData = USART_ReceiveData(USART1);
+		g_Serial_RxFlag = 1;
+		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
+	}
+}
+
+
+/***********************************************************
+ *     外部函数定义    
+ ***********************************************************/
+
+/************************************************
+Date: 2022.8.24
+Author: h00421956
 Func:串口发送功能测试：单片机->上位机
 ************************************************/
 void Serial_TxOnly_Test(void) {
@@ -183,3 +248,24 @@ void Serial_RxOnlyScan_Test(void) {
 	}		
 }
 
+/************************************************
+Date: 2022.8.24
+Author: h00421956
+Func:串口接收发送功能测试：上位机->单片机->上位机
+		使用循环扫描检测接收数据
+		函数要放在main函数while里
+************************************************/
+void Serial_TRx_Test(void) {
+	uint8_t rxData = 0;
+	if (Serial_GetRxFlag() == 1) {
+		// 接收上位机的数据
+		rxData = Serial_GetRxData();
+		// 把接收数据发回给上位机
+		Serial_SendByte(rxData);
+		OLED_ShowString(1, 1, "Serial Recev:");
+		//OLED_ShowHexNum(2, 1, rxData, 2);
+		OLED_ShowHexNum(2, 1, rxData-'A', 2);
+		OLED_ShowHexNum(3, 1, 'A', 2);
+		
+	}
+}
