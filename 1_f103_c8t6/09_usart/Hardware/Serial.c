@@ -1,6 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include <stdio.h>
 #include <stdarg.h> //可变参数头文件
+#include "OLED.h"
 
 /************************************************
 Date: 2022.8.23
@@ -11,22 +12,28 @@ void Serial_Init(void)
 {
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_USART1, ENABLE);
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE);
-	
+	// tx配置
 	GPIO_InitTypeDef GPIO_InitStructure;
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
 	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_9;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
+	// rx配置
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPU;
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_10;
+	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+	GPIO_Init(GPIOA, &GPIO_InitStructure);	
 	
 	USART_InitTypeDef USART_InitStructure;
 	USART_InitStructure.USART_BaudRate = 9600;
 	USART_InitStructure.USART_HardwareFlowControl = USART_HardwareFlowControl_None;
-	USART_InitStructure.USART_Mode = USART_Mode_Tx;
+	USART_InitStructure.USART_Mode = USART_Mode_Tx | USART_Mode_Rx;
 	USART_InitStructure.USART_Parity = USART_Parity_No;
 	USART_InitStructure.USART_StopBits = USART_StopBits_1;
 	USART_InitStructure.USART_WordLength = USART_WordLength_8b;
 	USART_Init(USART1, &USART_InitStructure);
 	
+	// usart使能
 	USART_Cmd(USART1, ENABLE);
 }
 
@@ -123,3 +130,56 @@ void Serial_Printf(char *format, ...)
 	va_end(arg);
 	Serial_SendString(string);
 }
+
+/************************************************
+Date: 2022.8.24
+Author: h00421956
+Func:串口发送功能测试：单片机->上位机
+************************************************/
+void Serial_TxOnly_Test(void) {
+	// 发送字节
+	Serial_SendByte(0x41);
+	// Serial_SendByte('A'); // 功能同0x41
+	
+	// 发送字节数组，此时串口工具一般选择HEX模式
+	
+	uint8_t MyArray[] = {0x42, 0x43, 0x44, 0x45};	
+	Serial_SendArray(MyArray, 4);
+	
+	// 发送字符串
+	Serial_SendString("Helloworld!\r\n");
+	//Serial_SendString("\r\nNum1=");
+	
+	// 发送数字字符
+	Serial_SendNumber(12345, 5);
+	
+	// 重定向printf打印到串口
+	printf("\r\nNum2=%d\r\n", 222);
+	
+	//sprintf格式化打印到指定变量
+	char string[100]; 
+	sprintf(string, "Num3=%d\r\n", 333);
+	Serial_SendString(string);
+	
+	//串口可变参数打印
+	//Serial_Printf("\r\nNum4=%d", 444);
+	Serial_Printf("你好，串口号：%d\r\n", 444);
+	//Serial_Printf("\r\n");	
+}
+
+/************************************************
+Date: 2022.8.24
+Author: h00421956
+Func:串口接收功能测试：上位机->单片机, 
+		使用循环扫描检测接收数据
+		函数要放在main函数while里
+************************************************/
+void Serial_RxOnlyScan_Test(void) {
+	uint8_t rxData = 0;
+	if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == SET) {
+		rxData = USART_ReceiveData(USART1);
+		OLED_ShowString(1, 1, "Serial Recev:");
+		OLED_ShowHexNum(2, 1, rxData, 2);
+	}		
+}
+
