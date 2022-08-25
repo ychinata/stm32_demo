@@ -160,7 +160,7 @@ Func:串口接收功能：获取全局变量接收标志位
 uint8_t Serial_GetRxFlag(void)
 {
 	if (g_Serial_RxFlag == 1) {
-		// 自动清零
+		// 自动清零：这样会导致如果数据还没有读走，会被写入覆盖
 		g_Serial_RxFlag = 0;
 		return 1;
 	}
@@ -180,8 +180,9 @@ uint8_t Serial_GetRxData(void)
 /*****
 Date: 2022.8.244
 Author: h00421956
-Func:串口接收中断函数
+Func:串口接收中断函数, serial_packet.c中有合并函数
  *****/
+/*
 void USART1_IRQHandler(void)
 {
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
@@ -190,7 +191,7 @@ void USART1_IRQHandler(void)
 		USART_ClearITPendingBit(USART1, USART_IT_RXNE);
 	}
 }
-
+ */
 
 /***********************************************************
  *     外部函数定义    
@@ -269,3 +270,4 @@ void Serial_TRx_Test(void) {
 		
 	}
 }
+
