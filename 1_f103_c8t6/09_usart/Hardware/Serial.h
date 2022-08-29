@@ -32,5 +32,7 @@ void Serial_RxOnlyScan_Test(void);
 void Serial_TRx_Test(void);
 void Serial_SendPacket_Test(void);
 void Serial_RecvPacket_Test(void);
+void Serial_TRxPacket_Test(void);
+
 
 #endif

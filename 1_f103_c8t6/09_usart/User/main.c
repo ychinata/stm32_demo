@@ -26,7 +26,8 @@ int main(void) {
 		//Serial_TRx_Test();
 		
 		// 串口接收HEX数据包测试
-		Serial_RecvPacket_Test();
+		//Serial_RecvPacket_Test();
+		Serial_TRxPacket_Test();
 		
 	}
 }

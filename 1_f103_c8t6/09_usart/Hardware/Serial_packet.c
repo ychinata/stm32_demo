@@ -9,7 +9,7 @@
  ***************************/
 #define SERIAL_PACKET_BGN 0xFF
 #define SERIAL_PACKET_END 0xFE
-#define SERIAL_PACKET_LEN 4
+#define SERIAL_PACKET_LEN 8
 
 
 /**************************
@@ -82,7 +82,7 @@ Func:串口发送HEX数据包
 void Serial_SendPacket(void)
 {
 	Serial_SendByte(0xFF);
-	Serial_SendArray(g_Serial_TxPacket, 4);
+	Serial_SendArray(g_Serial_TxPacket, SERIAL_PACKET_LEN);
 	Serial_SendByte(0xFE);
 	return;
 }
@@ -133,18 +133,45 @@ void Serial_RecvPacket_Test(void) {
 }
 
 /*****************************
-Date: 2022.8.2x
+Date: 2022.8.29
 Author: h00421956
 Func:串口HEX数据包收发（大量数据）SERIAL_PACKET_LEN改为8
+
 ******************************/
+void Serial_TRxPacket_Test(void) {
+
+	u32 i = 0;
+	u32 buffLen = SERIAL_PACKET_LEN;
+	u32 width = 2; // 每个字节所占显示的宽度
+	
+	if (Serial_GetRxFlag() == 1) {
+		// 把接收数据发回给上位机
+		OLED_ShowString(1, 1, "TxPacket:");
+		// 填充发送数据
+		for (i = 0; i < buffLen; i++) {
+			g_Serial_TxPacket[i]++;
+		}	
+		Serial_SendPacket();
+		for (i = 0; i < buffLen; i++) {
+			// 每2格放一个字节aa|bb|cc|dd|
+			OLED_ShowHexNum(2, width*i+1, g_Serial_TxPacket[i], width);
+		}	
+		
+		// 接收上位机的数据getRxPacketData
+		OLED_ShowString(3, 1, "RxPacket:");
+		for (i = 0; i < buffLen; i++) {
+			OLED_ShowHexNum(4, width*i+1, g_Serial_RxPacket[i], width);
+		}
+	}
+}
 
 
-
-//保证数据不会被覆盖to do
-// Serial_GetRxFlag里不要立刻清零
-// 等操作完成之后，再清零
-// 中断里，只有flag==0，才继续接收下一个数据包（其它设计可以参考此思路）
-// 参考9-4 串口收发文本数据包
+/*保证数据不会被覆盖to do
+ Serial_GetRxFlag里不要立刻清零
+ 等操作完成之后，再清零
+ 中断里，只有flag==0，才继续接收下一个数据包（其它设计可以参考此思路）
+ 参考9-4 串口收发文本数据包
+*/
 
 // 参考《STM32自学笔记》环形缓冲区
 
