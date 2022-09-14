@@ -738,6 +738,11 @@
               <FileType>5</FileType>
               <FilePath>.\Hardware\Serial.h</FilePath>
             </File>
+            <File>
+              <FileName>Serial_packet.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\Serial_packet.c</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>

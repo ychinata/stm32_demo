@@ -11,7 +11,7 @@ Func:串口发送字节
 int main(void) {
 	// init
 	OLED_Init();
-	Serial_Init();
+	//Serial_Init();
 	
 	// 串口发送功能测试
 	//Serial_TxOnly_Test();
@@ -28,6 +28,8 @@ int main(void) {
 		// 串口接收HEX数据包测试
 		//Serial_RecvPacket_Test();
 		Serial_TRxPacket_Test();
+		//OLED_ShowString(1, 1, "TxPacketRxPacket");
 		
 	}
 }
+
