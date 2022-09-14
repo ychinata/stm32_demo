@@ -1,8 +1,8 @@
 #include "stm32f10x.h"
 #include "OLED_Font.h"
 
-#define OLED_4PIN_SCL GPIO_Pin_8
-#define OLED_4PIN_SDA GPIO_Pin_9
+#define OLED_4PIN_SCL GPIO_Pin_6
+#define OLED_4PIN_SDA GPIO_Pin_7
 
 /*“˝Ω≈≈‰÷√*/
 #define OLED_W_SCL(x)		GPIO_WriteBit(GPIOB, OLED_4PIN_SCL, (BitAction)(x))

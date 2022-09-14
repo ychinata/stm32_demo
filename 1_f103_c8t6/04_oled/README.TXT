@@ -1,16 +1,19 @@
 实验器材:
+
 	0.96寸4针脚OLED显示屏
 	
 实验目的:
 	学习单色4针脚OLED显示屏的使用
 
 连接管脚：
--正点原子精英STM32F103开发板 
+-方式1
 	SCL-PB6
 	SDA-PB7
--STM32F103C8T6最小系统板
+-方式2
+	GND-PB6
+	VCC-PB7
 	SCL-PB8
-	SDA-PB9	
+	SDA-PB9
 	
 实验现象:
 	本实验利用开发板的OLED/CAMERA接口连接ALIENTEK OLED模块，实现OLED模块的显示，下
