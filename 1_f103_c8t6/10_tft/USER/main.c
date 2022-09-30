@@ -28,7 +28,7 @@ void DrawTestPage(u8 *str)
 	LCD_Fill(0,lcddev.height-20,lcddev.width,lcddev.height,BLUE);
 	POINT_COLOR=WHITE;
 	Gui_StrCenter(0,2,WHITE,BLUE,str,16,1);//居中显示
-	Gui_StrCenter(0,lcddev.height-18,WHITE,BLUE,"www.lcdwiki.com",16,1);//居中显示
+	Gui_StrCenter(0,lcddev.height-18,WHITE,BLUE,"www.ftf.com",16,1);//居中显示
 	//绘制测试区域
 	//LCD_Fill(0,20,lcddev.width,lcddev.height-20,WHITE);
 }
@@ -36,13 +36,12 @@ void DrawTestPage(u8 *str)
 void LCD_MainTest(void)
 {
 	DrawTestPage("综合测试程序");	
-	Gui_StrCenter(0,23,RED,BLUE,"全动电子",16,1);//居中显示
-	Gui_StrCenter(0,40,RED,BLUE,"综合测试程序",16,1);//居中显示	
+	Gui_StrCenter(0,23,RED,BLUE,"电子",16,1);			//居中显示,中文需要取模之后才能显示?
+	Gui_StrCenter(0,40,RED,BLUE,"Helloworld程序",16,1);	//居中显示	
 	Gui_StrCenter(0,57,GREEN,BLUE,"1.8\" ST7735S",16,1);//居中显示
-	Gui_StrCenter(0,74,GREEN,BLUE,"128X160",16,1);//居中显示
-	Gui_StrCenter(0,91,BLUE,BLUE,"2018-12-03",16,1);//居中显示
-	delay_ms(1500);		
-	delay_ms(1500);
+	Gui_StrCenter(0,74,GREEN,BLUE,"128x160",16,1);		//居中显示
+	Gui_StrCenter(0,91,BLUE,BLUE,"2022-09-30",16,1);	//居中显示
+	delay_ms(1000);		// 每1秒刷新一次, 原来是3秒
 }
 
 int main(void)
