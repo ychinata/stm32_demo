@@ -2,8 +2,11 @@
 #include "OLED_Font.h"
 
 /* 引脚配置 - BGN */
-#define OLED_PIN_SCL GPIO_Pin_6
-#define OLED_PIN_SDA GPIO_Pin_7
+//#define OLED_PIN_SCL GPIO_Pin_6
+//#define OLED_PIN_SDA GPIO_Pin_7
+
+#define OLED_PIN_SCL GPIO_Pin_8 //同时要将PA6/PA7接VCC/GND
+#define OLED_PIN_SDA GPIO_Pin_9 //同时要将PA6/PA7接VCC/GND
 /* 引脚配置 - END */
 
 

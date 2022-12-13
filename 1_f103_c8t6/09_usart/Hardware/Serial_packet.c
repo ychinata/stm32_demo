@@ -27,14 +27,16 @@ uint8_t g_Serial_RxPacket[SERIAL_PACKET_LEN];
  ***********************************************************/
 
 /*****************************
-Date: 2022.8.244
+Date: 2022.8.24
 Author: h00421956
 Func:串口接收中断函数(数据包)
+History:
+1.2022.12.13 by xy
+将#ifndef->#if，编译宏使用错误
 ******************************/
-
 void USART1_IRQHandler(void)
 {
-#ifndef SERIAL_PACKET_MODE	
+#if SERIAL_NOT_PACKET_MODE	
 	if (USART_GetITStatus(USART1, USART_IT_RXNE) == SET) {
 		g_Serial_RxData = USART_ReceiveData(USART1);
 		g_Serial_RxFlag = 1;
