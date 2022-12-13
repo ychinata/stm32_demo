@@ -1,6 +1,7 @@
 #include "stm32f10x.h"                  // Device header
 #include <stdio.h>
 #include <stdarg.h> //可变参数头文件
+#include "LED.h"
 #include "OLED.h"
 
 
@@ -202,7 +203,8 @@ Date: 2022.8.24
 Author: h00421956
 Func:串口发送功能测试：单片机->上位机
 ************************************************/
-void Serial_TxOnly_Test(void) {
+void Serial_TxOnly_Test(void) 
+{
 	// 发送字节
 	Serial_SendByte(0x41);
 	// Serial_SendByte('A'); // 功能同0x41
@@ -238,9 +240,10 @@ Date: 2022.8.24
 Author: h00421956
 Func:串口接收功能测试：上位机->单片机, 
 		使用循环扫描检测接收数据
-		函数要放在main函数while里
+		函数要放在main函数while里,不使用中断函数
 ************************************************/
-void Serial_RxOnlyScan_Test(void) {
+void Serial_RxOnlyScan_Test(void) 
+{
 	uint8_t rxData = 0;
 	if (USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == SET) {
 		rxData = USART_ReceiveData(USART1);
@@ -254,9 +257,10 @@ Date: 2022.8.24
 Author: h00421956
 Func:串口接收发送功能测试：上位机->单片机->上位机
 		使用循环扫描检测接收数据
-		函数要放在main函数while里
+		函数要放在main函数while里,使用中断函数
 ************************************************/
-void Serial_TRx_Test(void) {
+void Serial_TRx_Test(void) 
+{
 	uint8_t rxData = 0;
 	if (Serial_GetRxFlag() == 1) {
 		// 接收上位机的数据
@@ -264,10 +268,57 @@ void Serial_TRx_Test(void) {
 		// 把接收数据发回给上位机
 		Serial_SendByte(rxData);
 		OLED_ShowString(1, 1, "Serial Recev:");
-		//OLED_ShowHexNum(2, 1, rxData, 2);
-		OLED_ShowHexNum(2, 1, rxData-'A', 2);
-		OLED_ShowHexNum(3, 1, 'A', 2);
+		OLED_ShowHexNum(2, 1, rxData, 2);
+		OLED_ShowChar(3, 1, rxData);    // 0x41对应'A',0x61对应'a'
 		
 	}
+}
+
+/************************************************
+Date: 2022.12.15
+Author: h00421956
+Func:串口接收发送功能：上位机->单片机->上位机
+		根据上位机的指令控制LED亮灭
+		函数要放在main函数while里,使用中断函数
+************************************************/
+void Serial_RxCtrlLed_Test(void) 
+{
+	uint8_t rxData = 0;
+    
+    // OLED格式化显示，放在main函数while外面
+//	OLED_ShowString(1, 1, "Serial-Rx:");
+//    OLED_ShowString(2, 1, "Hex:");
+//    OLED_ShowString(3, 1, "Char:");
+    
+    if (Serial_GetRxFlag() == 1) {
+        // 接收上位机的数据
+        rxData = Serial_GetRxData();
+        // 把接收数据发回给上位机
+        Serial_SendByte(rxData);
+        OLED_ShowHexNum(2, 5, rxData, 2);
+        OLED_ShowChar(3, 6, rxData);    // 0x41对应'A',0x61对应'a'
+        
+        // 根据上位机的指令控制LED
+        switch (rxData) {
+            case '1':
+                LED1_ON();
+                OLED_ShowString(4, 1, "LED1_ON");
+                break;
+            case '2':
+                LED2_ON();		
+                OLED_ShowString(4, 1, "LED2_ON");            
+                break;
+            case '3':
+                LED1_OFF();
+                OLED_ShowString(4, 1, "LED1_OFF");
+                break;
+            case '4':
+                LED2_OFF();				
+                OLED_ShowString(4, 1, "LED2_OFF");
+                break;                
+            default:
+                break;
+        }					
+    }        
 }
 
