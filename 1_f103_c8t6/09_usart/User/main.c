@@ -3,6 +3,7 @@
 #include "LED.h"
 #include "OLED.h"
 #include "Serial.h"
+#include "LED.h"
 
 
 /*
@@ -22,27 +23,33 @@ Func:串口发送字节
 int main(void) {
 
 	// init
-    LED_Init();
+	LED_Init();
 	OLED_Init();
 	Serial_Init();
     
-    //OLED_ShowString(1, 1, "Serial Recev:");
+    OLED_ShowString(1, 1, "Serial Recev:");
     // 4.OLED格式化显示
 	OLED_ShowString(1, 1, "Serial-Rx:");
     OLED_ShowString(2, 1, "Hex:");
     OLED_ShowString(3, 1, "Char:");    
     
+	
+	
 	// 0.串口发送功能测试
 	//Serial_TxOnly_Test();
 	
 	// 3.串口发送数据包测试
 	//Serial_SendPacket_Test();
 			    
-	while (1) {              	
+	while (1) {
+
+		LED1_ON();
+		LED2_ON();
+		
 		// 1.串口接收功能测试	
 		//Serial_RxOnlyScan_Test();
 		// 2.串口收发功能测试
-		//Serial_TRx_Test();
+		Serial_TRx_Test();
 		
 		// 3.串口接收HEX数据包测试
 		//Serial_RecvPacket_Test();
