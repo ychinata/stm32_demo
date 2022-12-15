@@ -1,12 +1,17 @@
 #include "stm32f10x.h"                 
 #include "Delay.h"
+#include "LED.h"
 #include "OLED.h"
 #include "Serial.h"
 
 
 /*
- *配置项：Serial.h中的模式： SERIAL_NOT_PACKET_MODE
-
+ * 配置项：Serial.h中的模式： SERIAL_NOT_PACKET_MODE
+ * OLED引脚
+ * USB TO TTL串口模块引脚：
+    TXD <-> PA10(USART_1_RX)
+    RXD <-> PA9 (USART_1_TX)
+    GND <-> GND       
  */
 
 /************************************************
@@ -17,10 +22,15 @@ Func:串口发送字节
 int main(void) {
 
 	// init
+    LED_Init();
 	OLED_Init();
 	Serial_Init();
     
     //OLED_ShowString(1, 1, "Serial Recev:");
+    // 4.OLED格式化显示
+	OLED_ShowString(1, 1, "Serial-Rx:");
+    OLED_ShowString(2, 1, "Hex:");
+    OLED_ShowString(3, 1, "Char:");    
     
 	// 0.串口发送功能测试
 	//Serial_TxOnly_Test();
@@ -37,7 +47,10 @@ int main(void) {
 		// 3.串口接收HEX数据包测试
 		//Serial_RecvPacket_Test();
 		//Serial_TRxPacket_Test();
-		//OLED_ShowString(1, 1, "TxPacketRxPacket");        
+		//OLED_ShowString(1, 1, "TxPacketRxPacket");     
+
+        // 4.串口控制LED
+        Serial_RxCtrlLed_Test();
 	}
 }
 

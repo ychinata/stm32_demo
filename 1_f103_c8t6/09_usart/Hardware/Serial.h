@@ -6,7 +6,7 @@
 /**************************
  *     宏定义
  ***************************/
- // 根据具体情况,修改成1:数据包模式/0:非数据包
+ // 根据具体情况,修改成:1非数据包/0数据包模式
  #define SERIAL_NOT_PACKET_MODE 1
 
 /**************************
@@ -38,6 +38,7 @@ void Serial_TRx_Test(void);
 void Serial_SendPacket_Test(void);
 void Serial_RecvPacket_Test(void);
 void Serial_TRxPacket_Test(void);
+void Serial_RxCtrlLed_Test(void);
 
 
 #endif
