@@ -13,8 +13,8 @@ void AD_Init(void)
     // GPIO_Pin <-> ADC_RegularChannelConfig()
     // PA1      <-> ADC_Channel_0
     // PA7      <-> ADC_Channel_7
-    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;       // 单通道    
-	//GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;       // 多通道
+    //GPIO_InitStructure.GPIO_Pin = GPIO_Pin_7;       // 单通道    
+	GPIO_InitStructure.GPIO_Pin = GPIO_Pin_0 | GPIO_Pin_1 | GPIO_Pin_2 | GPIO_Pin_3;       // 多通道
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
 	GPIO_Init(GPIOA, &GPIO_InitStructure);
 	
