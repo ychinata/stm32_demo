@@ -27,7 +27,7 @@ int main(void)
 	OLED_ShowString(3, 1, "Volatge:0.00V");
 	
 	while (1) {
-		ADValue = AD_GetValue();
+		ADValue = AD_GetValue(ADC_Channel_7);
 		Voltage = (float)ADValue / 4095 * 3.3;
 		
 		OLED_ShowNum(2, 9, ADValue, 4);
