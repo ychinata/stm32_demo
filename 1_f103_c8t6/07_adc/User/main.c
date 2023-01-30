@@ -45,7 +45,7 @@ int main1(void)
 
 // ADC多通道采集(采用单次转换+非扫描模式)
 // 2023.1.30
-int main(void)
+int main2(void)
 {
     uint16_t adVal0, adVal1, adVal2, adVal3; 
     float voltage;
@@ -76,6 +76,34 @@ int main(void)
 		voltage = (float)adVal3 / 4095 * 3.3;		
 		OLED_ShowNum(4, 10, voltage, 1);     // 显示电压整数部分
 		OLED_ShowNum(4, 12, (uint16_t)(voltage * 100) % 100, 2);    // 显示电压小数部分
+		
+		Delay_ms(100);
+	}
+}
+
+// ADC多通道采集+DMA
+// 2023.1.30
+int main(void)
+{
+    float voltage;    
+	OLED_Init();
+	AD_DMA_Init();
+	
+    OLED_ShowString(1, 1, "ADC+DMA MultiCh:"); 
+	OLED_ShowString(2, 1, "AD0:");
+	OLED_ShowString(3, 1, "AD1:");
+	OLED_ShowString(4, 1, "AD3:");
+    OLED_ShowChar(4, 11, '.');
+    OLED_ShowChar(4, 14, 'V');    
+	
+	while (1) {
+		OLED_ShowNum(2, 5, AD_Value[0], 4);
+		OLED_ShowNum(4, 5, AD_Value[3], 4);
+        
+        //显示转换成电压
+		voltage = (float)AD_Value[3] / 4095 * 3.3;		
+		OLED_ShowNum(4, 10, voltage, 1);     // 显示电压整数部分
+		OLED_ShowNum(4, 12, (uint16_t)(voltage * 100) % 100, 2);    // 显示电压小数部分        
 		
 		Delay_ms(100);
 	}
