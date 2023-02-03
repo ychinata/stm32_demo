@@ -14,7 +14,6 @@
  * 修改波特率：单片机侧和蓝牙侧 
  */
 
-uint16_t AT;	//接收蓝牙发过来的指令
 uint8_t LEDNum,FanSpeed;	//光度，转速
 int8_t FanDirection = 1 ;	//转向
 char SendString[100];		//向蓝牙发送的显示信息
@@ -52,24 +51,39 @@ void Control_T(uint8_t StandardT)	//温控模块
 
 int main(void)
 {
+    uint8_t AT;	//接收蓝牙发过来的指令
+    
 	OLED_Init();
 	Serial_Init();
 	LED_Init();	
 	//Motor_Init();
 	//LightSensor_Init();
 	
-	OLED_ShowString(1, 1, "BT Rx:");
+    // OLED格式化显示
+	OLED_ShowString(1, 1, "BT-Rx:");
+    OLED_ShowString(2, 1, "Hex:");
+    OLED_ShowString(3, 1, "Char:");
+    LED1_ON();
 	
 	while (1) {
 		if (Serial_GetRxFlag() == 1) {
-			AT = Serial_GetRxData();			
+			AT = Serial_GetRxData();
+            OLED_ShowHexNum(2, 5, AT, 2);
+            OLED_ShowChar(3, 6, AT);    // 0x41对应'A',0x61对应'a'
+            Serial_SendByte(AT);        // 发送回串口
 			switch (AT) {
-				case 1:
+				case '1':
 					LED1_ON();
 					break;
-				case 2:
+				case '2':
 					LED2_ON();				
 					break;
+				case '3':
+					LED1_OFF();
+					break;
+				case '4':
+					LED2_OFF();				
+					break;                
 				default:
 					break;
 			}					
@@ -77,8 +91,11 @@ int main(void)
 	}
 }
 
+// 待清理 
 int main1(void)
 {
+    uint8_t AT;	//接收蓝牙发过来的指令
+    
 	OLED_Init();
 	Serial_Init();
 	LED_Init();	
