@@ -7,10 +7,8 @@
 	
 
 Á¬½Ó¹Ü½Å£º
-    LED/PWM <-> PA0
-	 <-> PA1
-	 <-> PA2
-	 <-> PA3
+    LED/PWM/DAC <-> PA0
+	ADC         <-> PA2
 	
 	
 ¼Ä´æÆ÷ÅäÖÃ£º
