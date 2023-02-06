@@ -1,4 +1,5 @@
 #include "stm32f10x.h"                  // Device header
+#include "AD.h"
 #include "Delay.h"
 #include "Key.h"
 #include "LED.h"
@@ -8,18 +9,19 @@
 #define PWM_DAC_LEVEL 256   // 2^8=256,8位精度
 #define ADDA_VOL_MAX  3.3
 
-uint8_t i;
+void ShowAddaValue(u16 *t);
 
 /*********************
  * Func.: 定时器控制PWM实现呼吸灯
  * Author:江科大自化协
  * Date:2023.2.6
  *********************/ 
+ uint8_t i;
 int main1(void)
 {
 	OLED_Init();
-	//PWM_Init();
-    TIM2_PWM_Init(100-1, 720-1); //为什么是720?
+	PWM_Init();
+    //TIM2_PWM_Init(100-1, 720-1); //为什么是720?
 	
     OLED_ShowString(1, 1, "TIM:PWM LED");
     
@@ -35,24 +37,27 @@ int main1(void)
 	}
 }
 
-// 正点原子
+/*********************
+ * Func.: 定时器PWM实现DAC
+ * Author:正点原子,xy
+ * Date:2023.2.6
+ *********************/ 
 int main(void)
 {	 
-	u16 adcVal = 200;
-    u16 dacVal = 255;
-	float temp;
  	u16 t=0;	 
-	u16 pwmval = 255;
+	u16 pwmval = 0;         //初始值为0	
 	u8 key = KEY0_PRES;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
+    
+    //初始化
 	Key_Init();				  //KEY初始化
  	LED_Init();			     //LED端口初始化
 	OLED_Init();			 	 //LCD初始化
-    //Adc_Init();		  		//ADC初始化
-	//TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
-    TIM2_PWM_Init(100-1, 720-1);
-    PWM_SetCompare1(pwmval);//初始值为0	
-	     
+    AD_Init();		  		//ADC初始化
+	TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
+    //TIM2_PWM_Init(100-1, 720-1);
+    PWM_SetCompare1(pwmval);
+
 
     //显示提示信息	
     OLED_ShowString(1,1,"PWM DAC TEST");     
@@ -75,28 +80,38 @@ int main(void)
 			PWM_SetCompare1(pwmval); 		//输出
 		}	 
 		if(t==10||key==KEY1_PRES||key==KEY2_PRES) { 		//WKUP/KEY1按下了,或者定时时间到了		
-            // 显示DAC输出电压值
-			dacVal = TIM_GetCapture1(TIM2);           // 获取失败	
-            OLED_ShowNum(2, 9, dacVal, 3);            // 显示DAC寄存器值
-			temp = (float)dacVal*(ADDA_VOL_MAX/PWM_DAC_LEVEL);		    //得到DAC电压值
-			dacVal = temp;
- 			OLED_ShowNum(3, 9, dacVal, 1);     	//显示电压值整数部分
- 			temp -= dacVal;                       // 电压小数部分
-			temp *= 1000;
-			OLED_ShowNum(3, 11, temp, 3); 	    //显示电压值的小数部分
-            
-            // 显示ADC输入电压值
- 			//adcx = Get_Adc_Average(ADC_Channel_1, 20);  		//得到ADC转换值	  
-			temp = (float)adcVal*(ADDA_VOL_MAX/4096);			//得到ADC电压值
-			adcVal = temp;
- 			OLED_ShowNum(4, 9, temp, 1);     	//显示电压值整数部分
- 			temp -= adcVal;
-			temp *= 1000;
-			OLED_ShowNum(4, 11, temp, 3); 	//显示电压值的小数部分
-			t=0;
-			LED1_Turn();	
-            //PWM_SetCompare1(pwmval);            
-		}	    
+            ShowAddaValue(&t);
+		}	           
 		Delay_ms(10);	
-	}
- }
+    }
+}
+
+// 显示ADC,DAC的电压值
+void ShowAddaValue(u16 *t)
+{
+	u16 adcVal = 200;
+    u16 dacVal = 255;
+	float temp;
+    
+   // 显示DAC输出电压值
+    dacVal = TIM_GetCapture1(TIM2);           // 获取失败	
+    OLED_ShowNum(2, 9, dacVal, 3);            // 显示DAC寄存器值
+    temp = (float)dacVal*(ADDA_VOL_MAX/PWM_DAC_LEVEL);		    //得到DAC电压值
+    dacVal = temp;
+    OLED_ShowNum(3, 9, dacVal, 1);     	//显示电压值整数部分
+    temp -= dacVal;                       // 电压小数部分
+    temp *= 1000;
+    OLED_ShowNum(3, 11, temp, 3); 	    //显示电压值的小数部分
+    
+    // 显示ADC输入电压值
+    //adcx = Get_Adc_Average(ADC_Channel_1, 20);  		//得到ADC转换值	  
+    adcVal = AD_GetValue(ADC_Channel_2);                //得到ADC转换值	      
+    temp = (float)adcVal*(ADDA_VOL_MAX/4096);			//得到ADC电压值
+    adcVal = temp;
+    OLED_ShowNum(4, 9, temp, 1);     	//显示电压值整数部分
+    temp -= adcVal;
+    temp *= 1000;
+    OLED_ShowNum(4, 11, temp, 3); 	//显示电压值的小数部分
+    *t = 0;
+    LED1_Turn();	           
+}
