@@ -1,5 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 
+/* 定时器2初始化 */
 void PWM_Init(void)
 {
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
