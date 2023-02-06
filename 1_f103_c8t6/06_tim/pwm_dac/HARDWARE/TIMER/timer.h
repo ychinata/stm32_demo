@@ -7,4 +7,8 @@ void TIM3_Int_Init(u16 arr,u16 psc);
 void TIM3_PWM_Init(u16 arr,u16 psc);
 void TIM5_Cap_Init(u16 arr,u16 psc);
 void TIM1_PWM_Init(u16 arr,u16 psc);
+
+void TIM2_PWM_Init(u16 arr,u16 psc);
+void PWM_SetCompare(uint16_t Compare);
+
 #endif

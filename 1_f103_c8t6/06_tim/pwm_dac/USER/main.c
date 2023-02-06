@@ -12,6 +12,8 @@
 #include "usmart.h"
 
  
+uint8_t i; 
+ 
 /************************************************
  ALIENTEK战舰STM32开发板实验21
  PWM DAC 实验  
@@ -27,7 +29,8 @@ void PWM_DAC_Set(u16 vol)
 	temp=temp*256/3.3;
 	TIM_SetCompare1(TIM1,temp);
 }
- int main(void)
+
+ int main1(void)
  {	 
 	u16 adcx;
 	float temp;
@@ -39,21 +42,14 @@ void PWM_DAC_Set(u16 vol)
 	uart_init(115200);	 	//串口初始化为115200
 	KEY_Init();				  //KEY初始化
  	LED_Init();			     //LED端口初始化
-	usmart_dev.init(72);	//初始化USMART	
 	LCD_Init();			 	 //LCD初始化
     Adc_Init();		  		//ADC初始化
-	TIM1_PWM_Init(255,0);	//TIM1 PWM初始化, Fpwm=72M/256=281.25Khz.
+	TIM1_PWM_Init(255,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
     TIM_SetCompare1(TIM1,100);//初始值为0	
 	     
 
- 	POINT_COLOR=RED;//设置字体为红色 
-	LCD_ShowString(60,50,200,16,16,"WarShip STM32");	
-	LCD_ShowString(60,70,200,16,16,"PWM DAC TEST");	
-	LCD_ShowString(60,90,200,16,16,"ATOM@ALIENTEK");
-	LCD_ShowString(60,110,200,16,16,"2015/1/15");	
-	LCD_ShowString(60,130,200,16,16,"WK_UP:+  KEY1:-");	
-	//显示提示信息											      
-	POINT_COLOR=BLUE;//设置字体为蓝色
+    //显示提示信息	
+	LCD_ShowString(60,70,200,16,16,"PWM DAC TEST");											     
 	LCD_ShowString(60,150,200,16,16,"PWM VAL:");	      
 	LCD_ShowString(60,170,200,16,16,"DAC VOL:0.000V");	      
 	LCD_ShowString(60,190,200,16,16,"ADC VOL:0.000V");
