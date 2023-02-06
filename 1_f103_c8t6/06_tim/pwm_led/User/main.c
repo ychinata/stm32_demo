@@ -41,6 +41,7 @@ int main1(void)
  * Func.: 定时器PWM实现DAC
  * Author:正点原子,xy
  * Date:2023.2.6
+    DAC输出PA0, 环回PA2输入ADC, 并显示两个值
  *********************/ 
 int main(void)
 {	 
@@ -103,9 +104,8 @@ void ShowAddaValue(u16 *t)
     temp *= 1000;
     OLED_ShowNum(3, 11, temp, 3); 	    //显示电压值的小数部分
     
-    // 显示ADC输入电压值
-    //adcx = Get_Adc_Average(ADC_Channel_1, 20);  		//得到ADC转换值	  
-    adcVal = AD_GetValue(ADC_Channel_2);                //得到ADC转换值	      
+    // 显示ADC输入电压值     
+    adcVal = AD_GetAverageValue(ADC_Channel_2, 20);     //得到ADC转换平均值,如果是瞬时值,会出现3.3V和0V一直跳动
     temp = (float)adcVal*(ADDA_VOL_MAX/4096);			//得到ADC电压值
     adcVal = temp;
     OLED_ShowNum(4, 9, temp, 1);     	//显示电压值整数部分

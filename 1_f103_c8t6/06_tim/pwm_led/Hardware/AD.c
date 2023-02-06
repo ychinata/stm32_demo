@@ -1,5 +1,6 @@
 #include "stm32f10x.h"                  // Device header
 #include "AD.h"
+#include "Delay.h"
 
 // ADC+DMA
 uint16_t AD_Value[4];
@@ -52,6 +53,19 @@ uint16_t AD_GetValue(uint8_t adcChannelNo)
 	while (ADC_GetFlagStatus(ADC1, ADC_FLAG_EOC) == RESET);
 	return ADC_GetConversionValue(ADC1);
 }
+
+// 2023.2.6
+// 获取单个通道的平均AD值
+u16 AD_GetAverageValue(u8 adcChannelNo, u8 times)
+{
+	u32 temp_val = 0;
+	u8 t;
+	for (t=0; t<times; t++) {
+		temp_val += AD_GetValue(adcChannelNo);
+		Delay_ms(5);
+	}
+	return temp_val/times;
+} 
 
 // ADC扫描模式+DMA转运
 void AD_DMA_Init(void)
