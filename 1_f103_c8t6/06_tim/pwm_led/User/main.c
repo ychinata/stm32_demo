@@ -20,8 +20,8 @@ void ShowAddaValue(u16 *t);
 int main1(void)
 {
 	OLED_Init();
-	PWM_Init();
-    //TIM2_PWM_Init(100-1, 720-1); //为什么是720?
+	//PWM_Init();
+    TIM2_PWM_Init(100-1, 720-1); //为什么是720?
 	
     OLED_ShowString(1, 1, "TIM:PWM LED");
     
@@ -45,7 +45,7 @@ int main1(void)
 int main(void)
 {	 
  	u16 t=0;	 
-	u16 pwmval = 0;         //初始值为0	
+	u16 pwmval = 100;         //初始值为0	
 	u8 key = KEY0_PRES;
 	NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2); 	 //设置NVIC中断分组2:2位抢占优先级，2位响应优先级
     

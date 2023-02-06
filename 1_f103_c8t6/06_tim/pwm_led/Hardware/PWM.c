@@ -51,7 +51,7 @@ void TIM2_PWM_Init(u16 arr,u16 psc)
 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA, ENABLE); //使能GPIO外设
 	
     RCC_APB2PeriphClockCmd(RCC_APB2Periph_AFIO, ENABLE);  //正点原子添加
-    GPIO_PinRemapConfig(GPIO_PartialRemap1_TIM2, ENABLE); //正点原子添加,Timer2部分重映射
+    //GPIO_PinRemapConfig(GPIO_PartialRemap1_TIM2, ENABLE); //正点原子添加,Timer2部分重映射.增加此句,导致呼吸灯不亮
 	
 	//设置该引脚为复用输出功能,输出TIM2的PWM脉冲波形GPIOA.0
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_AF_PP;
@@ -77,7 +77,7 @@ void TIM2_PWM_Init(u16 arr,u16 psc)
 	TIM_OCInitStructure.TIM_Pulse = 0;		//CCR,设置待装入捕获比较寄存器的脉冲值
 	TIM_OC1Init(TIM2, &TIM_OCInitStructure); //根据T指定的参数初始化外设TIM2 OC1  
 
-	TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);  ////正点原子添加,使能TIM3在CCR2上的预装载寄存器
+	TIM_OC2PreloadConfig(TIM2, TIM_OCPreload_Enable);  //正点原子添加,使能TIM3在CCR2上的预装载寄存器
 	
 	TIM_Cmd(TIM2, ENABLE);
 }
