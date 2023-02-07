@@ -1,7 +1,8 @@
 #include "sys.h"
 #include "mmc_sd.h"			   
 #include "spi.h"
-#include "usart.h"	
+//#include "usart.h"	
+
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK MiniSTM32开发板
@@ -40,18 +41,19 @@ void SD_SPI_Init(void)
   //设置硬件上与SD卡相关联的控制引脚输出
 	//禁止其他外设(NRF/W25Q64)对SD卡产生影响
 
-	GPIO_InitTypeDef GPIO_InitStructure;
-	RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA, ENABLE );	 //PORTA时钟使能 
+    GPIO_InitTypeDef GPIO_InitStructure;
+    RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA, ENABLE );	 //PORTA时钟使能 
 
-  GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4;//PA2.3.4 推挽 	n_3|GPIO_Pin_4;
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP ;   
-	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
-	GPIO_Init(GPIOA, &GPIO_InitStructure);
-	GPIO_SetBits(GPIOA,GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4);//PA2.3.4上拉 
+    GPIO_InitStructure.GPIO_Pin = GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4;//PA2.3.4 推挽 	n_3|GPIO_Pin_4;
+    GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP ;   
+    GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
+    GPIO_Init(GPIOA, &GPIO_InitStructure);
+    GPIO_SetBits(GPIOA,GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4);//PA2.3.4上拉 
 
-  SPI1_Init();
-	SD_CS=1;
+    SPI1_Init();
+    SD_CS=1;
 }
+
 ///////////////////////////////////////////////////////////////////////////////////
 //取消选择,释放SPI总线
 void SD_DisSelect(void)
@@ -59,6 +61,7 @@ void SD_DisSelect(void)
 	SD_CS=1;
  	SD_SPI_ReadWriteByte(0xff);//提供额外的8个时钟
 }
+
 //选择sd卡,并且等待卡准备OK
 //返回值:0,成功;1,失败;
 u8 SD_Select(void)
@@ -68,6 +71,7 @@ u8 SD_Select(void)
 	SD_DisSelect();
 	return 1;//等待失败
 }
+
 //等待卡准备好
 //返回值:0,准备好了;其他,错误代码
 u8 SD_WaitReady(void)
@@ -80,6 +84,7 @@ u8 SD_WaitReady(void)
 	}while(t<0XFFFFFF);//等待 
 	return 1;
 }
+
 //等待SD卡回应
 //Response:要得到的回应值
 //返回值:0,成功得到了该回应值
@@ -91,6 +96,7 @@ u8 SD_GetResponse(u8 Response)
 	if (Count==0)return MSD_RESPONSE_FAILURE;//得到回应失败   
 	else return MSD_RESPONSE_NO_ERROR;//正确回应
 }
+
 //从sd卡读取一个数据包的内容
 //buf:数据缓存区
 //len:要读取的数据长度.
@@ -108,6 +114,7 @@ u8 SD_RecvData(u8*buf,u16 len)
     SD_SPI_ReadWriteByte(0xFF);									  					    
     return 0;//读取成功
 }
+
 //向sd卡写入一个数据包的内容 512字节
 //buf:数据缓存区
 //cmd:指令
@@ -146,7 +153,8 @@ u8 SD_SendCmd(u8 cmd, u32 arg, u8 crc)
     SD_SPI_ReadWriteByte(arg >> 8);
     SD_SPI_ReadWriteByte(arg);	  
     SD_SPI_ReadWriteByte(crc); 
-	if(cmd==CMD12)SD_SPI_ReadWriteByte(0xff);//Skip a stuff byte when stop reading
+	if(cmd==CMD12)
+        SD_SPI_ReadWriteByte(0xff);//Skip a stuff byte when stop reading
     //等待响应，或超时退出
 	Retry=0X1F;
 	do
@@ -155,7 +163,8 @@ u8 SD_SendCmd(u8 cmd, u32 arg, u8 crc)
 	}while((r1&0X80) && Retry--);	 
 	//返回状态值
     return r1;
-}		    																			  
+}		    	
+
 //获取SD卡的CID信息，包括制造商信息
 //输入: u8 *cid_data(存放CID的内存，至少16Byte）	  
 //返回值:0：NO_ERR
@@ -172,7 +181,8 @@ u8 SD_GetCID(u8 *cid_data)
 	SD_DisSelect();//取消片选
 	if(r1)return 1;
 	else return 0;
-}																				  
+}			
+
 //获取SD卡的CSD信息，包括容量和速度信息
 //输入:u8 *cid_data(存放CID的内存，至少16Byte）	    
 //返回值:0：NO_ERR
@@ -189,6 +199,7 @@ u8 SD_GetCSD(u8 *csd_data)
 	if(r1)return 1;
 	else return 0;
 }  
+
 //获取SD卡的总扇区数（扇区数）   
 //返回值:0： 取容量出错 
 //       其他:SD卡的容量(扇区数/512字节)
@@ -214,6 +225,7 @@ u32 SD_GetSectorCount(void)
     }
     return Capacity;
 }
+
 //初始化SD卡
 u8 SD_Initialize(void)
 {
@@ -282,6 +294,7 @@ u8 SD_Initialize(void)
 	else if(r1)return r1; 	   
 	return 0xaa;//其他错误
 }
+
 //读SD卡
 //buf:数据缓存区
 //sector:扇区
@@ -311,6 +324,7 @@ u8 SD_ReadDisk(u8*buf,u32 sector,u8 cnt)
 	SD_DisSelect();//取消片选
 	return r1;//
 }
+
 //写SD卡
 //buf:数据缓存区
 //sector:起始扇区

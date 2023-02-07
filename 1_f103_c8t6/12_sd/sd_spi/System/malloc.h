@@ -14,7 +14,19 @@
 //All rights reserved									  
 //////////////////////////////////////////////////////////////////////////////////
 
-
+//STM32F103C8T6
+//	FLASH 64K 中容量
+//	SRAM	20K
+//STM32F103RCT6
+//	FLASH 256K 大容量
+//	SRAM	48K
+//STM32F103ZET6
+//	FLASH 512K 大容量
+//	SRAM	64K
+//STM32L452CEU6
+//	FLASH 512K 大容量
+//	SRAM	160K 
+//	80MHz
  
 #ifndef NULL
 #define NULL 0
@@ -22,7 +34,7 @@
 
 //内存参数设定.
 #define MEM_BLOCK_SIZE			32  	  						//内存块大小为32字节
-#define MEM_MAX_SIZE			42*1024  						//最大管理内存 42K
+#define MEM_MAX_SIZE			17*1024  						//最大管理内存20K?
 #define MEM_ALLOC_TABLE_SIZE	MEM_MAX_SIZE/MEM_BLOCK_SIZE 	//内存表大小
  
 		 

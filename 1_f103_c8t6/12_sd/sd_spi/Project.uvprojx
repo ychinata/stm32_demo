@@ -663,6 +663,26 @@
               <FileType>5</FileType>
               <FilePath>.\System\Delay.h</FilePath>
             </File>
+            <File>
+              <FileName>malloc.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\malloc.c</FilePath>
+            </File>
+            <File>
+              <FileName>malloc.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\malloc.h</FilePath>
+            </File>
+            <File>
+              <FileName>sys.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\sys.c</FilePath>
+            </File>
+            <File>
+              <FileName>sys.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\sys.h</FilePath>
+            </File>
           </Files>
         </Group>
         <Group>
@@ -712,6 +732,26 @@
               <FileName>AD.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\AD.h</FilePath>
+            </File>
+            <File>
+              <FileName>spi.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\spi.c</FilePath>
+            </File>
+            <File>
+              <FileName>spi.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\spi.h</FilePath>
+            </File>
+            <File>
+              <FileName>mmc_sd.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\mmc_sd.h</FilePath>
+            </File>
+            <File>
+              <FileName>mmc_sd.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\mmc_sd.c</FilePath>
             </File>
           </Files>
         </Group>
