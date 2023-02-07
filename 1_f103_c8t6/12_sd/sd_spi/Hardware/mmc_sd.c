@@ -31,10 +31,13 @@ void SD_SPI_SpeedLow(void)
 {
  	SPI1_SetSpeed(SPI_BaudRatePrescaler_256);//设置到低速模式	
 }
+
 //SD卡正常工作的时候,可以高速了
+//SD_Initialize调用
 void SD_SPI_SpeedHigh(void)
 {
- 	SPI1_SetSpeed(SPI_BaudRatePrescaler_2);//设置到高速模式	
+ 	//SPI1_SetSpeed(SPI_BaudRatePrescaler_2);//设置到高速模式	
+    SPI1_SetSpeed(SPI_BaudRatePrescaler_4);//设置到高速模式	
 }
 //SPI硬件层初始化
 // 为什么是PA2/3/4?

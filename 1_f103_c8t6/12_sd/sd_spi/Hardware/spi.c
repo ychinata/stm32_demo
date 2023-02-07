@@ -43,6 +43,8 @@ void SPI1_Init(void)
 	SPI_InitStructure.SPI_CRCPolynomial = 7;	//CRC值计算的多项式
 	SPI_Init(SPI1, &SPI_InitStructure);  //根据SPI_InitStruct中指定的参数初始化外设SPIx寄存器
  
+    //SPI_RxFIFOThresholdConfig(SPI1, SPI_RxFIFOThreshold_QF); //这是一个阀值的设置 
+ 
 	SPI_Cmd(SPI1, ENABLE); //使能SPI外设
 	
 	SPI1_ReadWriteByte(0xff);//启动传输		 
@@ -67,7 +69,7 @@ void SPI1_SetSpeed(u8 SpeedSet)
 u8 SPI1_ReadWriteByte(u8 TxData)
 {		
 	u8 retry=0;				 	
-    //检查指定的SPI标志位设置与否:发送缓存空标志位
+    //检查指定的SPI标志位设置与否:发送缓存空标志位    
 	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_TXE) == RESET) {
 		retry++;
 		if(retry>200)
@@ -76,8 +78,11 @@ u8 SPI1_ReadWriteByte(u8 TxData)
 	SPI_I2S_SendData(SPI1, TxData); //通过外设SPIx发送一个数据
 	retry=0;
 
-    //检查指定的SPI标志位设置与否:接受缓存非空标志位
-	while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET) {
+    
+    // https://bbs.21ic.com/icview-440361-1-1.html
+    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) {
+	//检查指定的SPI标志位设置与否:接受缓存非空标志位
+    //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET) {
 		retry++;
 		if(retry>200)
             return 0;
