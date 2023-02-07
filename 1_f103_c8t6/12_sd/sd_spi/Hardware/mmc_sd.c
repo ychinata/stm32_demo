@@ -1,6 +1,7 @@
 #include "sys.h"
 #include "mmc_sd.h"			   
 #include "spi.h"
+#include "OLED.h"
 //#include "usart.h"	
 
 //////////////////////////////////////////////////////////////////////////////////	 
@@ -36,10 +37,12 @@ void SD_SPI_SpeedHigh(void)
  	SPI1_SetSpeed(SPI_BaudRatePrescaler_2);//设置到高速模式	
 }
 //SPI硬件层初始化
+// 为什么是PA2/3/4?
 void SD_SPI_Init(void)
 {
-  //设置硬件上与SD卡相关联的控制引脚输出
+    //设置硬件上与SD卡相关联的控制引脚输出
 	//禁止其他外设(NRF/W25Q64)对SD卡产生影响
+    //SPI1被3个外设共用了：SD卡、W25Q64和NRF24L01，在使用SD卡的时候，必须禁止其他外设的片选，以防干扰
 
     GPIO_InitTypeDef GPIO_InitStructure;
     RCC_APB2PeriphClockCmd(	RCC_APB2Periph_GPIOA, ENABLE );	 //PORTA时钟使能 
@@ -51,7 +54,7 @@ void SD_SPI_Init(void)
     GPIO_SetBits(GPIOA,GPIO_Pin_2|GPIO_Pin_3|GPIO_Pin_4);//PA2.3.4上拉 
 
     SPI1_Init();
-    SD_CS=1;
+    SD_CS = 1;  // 设置CS管脚
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -236,62 +239,61 @@ u8 SD_Initialize(void)
 
 	SD_SPI_Init();		//初始化IO
  	SD_SPI_SpeedLow();	//设置到低速模式 
- 	for(i=0;i<10;i++)SD_SPI_ReadWriteByte(0XFF);//发送最少74个脉冲
+ 	for(i=0;i<10;i++)
+        SD_SPI_ReadWriteByte(0XFF);//发送最少74个脉冲
 	retry=20;
-	do
-	{
+	do {
 		r1=SD_SendCmd(CMD0,0,0x95);//进入IDLE状态
-	}while((r1!=0X01) && retry--);
- 	SD_Type=0;//默认无卡
-	if(r1==0X01)
-	{
-		if(SD_SendCmd(CMD8,0x1AA,0x87)==1)//SD V2.0
-		{
-			for(i=0;i<4;i++)buf[i]=SD_SPI_ReadWriteByte(0XFF);	//Get trailing return value of R7 resp
-			if(buf[2]==0X01&&buf[3]==0XAA)//卡是否支持2.7~3.6V
-			{
-				retry=0XFFFE;
-				do
-				{
+	} while((r1!=0X01) && retry--);
+ 	SD_Type = 0;//默认无卡
+	if(r1==0X01) {
+		if(SD_SendCmd(CMD8,0x1AA,0x87)==1) {//SD V2.0		
+			for(i=0;i<4;i++)
+                buf[i]=SD_SPI_ReadWriteByte(0XFF);	//Get trailing return value of R7 resp
+			if(buf[2]==0X01&&buf[3]==0XAA) {//卡是否支持2.7~3.6V			
+				retry = 0XFFFE;
+				do {
 					SD_SendCmd(CMD55,0,0X01);	//发送CMD55
 					r1=SD_SendCmd(CMD41,0x40000000,0X01);//发送CMD41
-				}while(r1&&retry--);
-				if(retry&&SD_SendCmd(CMD58,0,0X01)==0)//鉴别SD2.0卡版本开始
-				{
-					for(i=0;i<4;i++)buf[i]=SD_SPI_ReadWriteByte(0XFF);//得到OCR值
-					if(buf[0]&0x40)SD_Type=SD_TYPE_V2HC;    //检查CCS
-					else SD_Type=SD_TYPE_V2;   
+				} while(r1&&retry--);
+				if(retry&&SD_SendCmd(CMD58,0,0X01)==0) {//鉴别SD2.0卡版本开始				
+					for(i=0;i<4;i++)
+                        buf[i]=SD_SPI_ReadWriteByte(0XFF);//得到OCR值
+					if(buf[0]&0x40)
+                        SD_Type=SD_TYPE_V2HC;    //检查CCS
+					else 
+                        SD_Type=SD_TYPE_V2;   
 				}
 			}
-		}else//SD V1.x/ MMC	V3
-		{
+		}else {//SD V1.x/ MMC	V3		
 			SD_SendCmd(CMD55,0,0X01);		//发送CMD55
 			r1=SD_SendCmd(CMD41,0,0X01);	//发送CMD41
-			if(r1<=1)
-			{		
+			if(r1<=1) {		
 				SD_Type=SD_TYPE_V1;
 				retry=0XFFFE;
-				do //等待退出IDLE模式
-				{
+				do {//等待退出IDLE模式
 					SD_SendCmd(CMD55,0,0X01);	//发送CMD55
 					r1=SD_SendCmd(CMD41,0,0X01);//发送CMD41
 				}while(r1&&retry--);
-			}else//MMC卡不支持CMD55+CMD41识别
-			{
+			}else{//MMC卡不支持CMD55+CMD41识别			
 				SD_Type=SD_TYPE_MMC;//MMC V3
 				retry=0XFFFE;
-				do //等待退出IDLE模式
-				{											    
+				do { //等待退出IDLE模式														   
 					r1=SD_SendCmd(CMD1,0,0X01);//发送CMD1
 				}while(r1&&retry--);  
 			}
-			if(retry==0||SD_SendCmd(CMD16,512,0X01)!=0)SD_Type=SD_TYPE_ERR;//错误的卡
+			if(retry==0||SD_SendCmd(CMD16,512,0X01)!=0)
+                SD_Type=SD_TYPE_ERR;//错误的卡
 		}
 	}
 	SD_DisSelect();//取消片选
 	SD_SPI_SpeedHigh();//高速
-	if(SD_Type)return 0;
-	else if(r1)return r1; 	   
+	
+    if(SD_Type)
+        return 0;
+	else if(r1) // SD_TYPE_ERR
+        return r1; 	   
+    
 	return 0xaa;//其他错误
 }
 

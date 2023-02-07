@@ -52,6 +52,7 @@ int main(void)
 	u8 key;		 
 	u32 sd_size;
 	u8 t=0;	 
+    u16 ret;
     
     NVIC_PriorityGroupConfig(NVIC_PriorityGroup_2);// 设置中断优先级分组2	  
 	//uart_init(9600);	 	//串口初始化为9600,用于调试打印
@@ -60,28 +61,34 @@ int main(void)
  	KEY_Init();				//按键初始化  
  	mem_init();				//初始化内存池	 
     
-
-	//LCD_ShowString(60,50,200,16,16,"Mini STM32");	
-	//LCD_ShowString(60,70,200,16,16,"SD CARD TEST");	
-	//LCD_ShowString(60,90,200,16,16,"ATOM@ALIENTEK");
-	//LCD_ShowString(60,110,200,16,16,"2014/3/13");  
+    OLED_ShowString(1, 1, "SD CARD TEST");
 	//LCD_ShowString(60,130,200,16,16,"KEY0:Read Sector 0");	  
     
+
     //检测不到SD卡
+    ret = SD_Initialize();
+    OLED_ShowHexNum(2, 1, ret, 2);
+    
  	while(SD_Initialize()) {
-		//LCD_ShowString(60,150,200,16,16,"SD Card Error!");
+        OLED_ShowString(3, 1, "SD Card Error!");
 		Delay_ms(500);					
-		//LCD_ShowString(60,150,200,16,16,"Please Check! ");
+        OLED_ShowString(3, 1, "Please Check!");
 		Delay_ms(500);
 		LED1_Turn();//DS0闪烁
 	}
 
 	//检测SD卡成功 											    
-	//LCD_ShowString(60,150,200,16,16,"SD Card OK    ");
+    OLED_ShowString(3, 1, "SD Card Exist!");
+    /*
+
+
 	//LCD_ShowString(60,170,200,16,16,"SD Card Size:     MB");
 	sd_size=SD_GetSectorCount();//得到扇区数
 	//LCD_ShowNum(164,170,sd_size>>11,5,16);//显示SD卡容量
+    
+    */
 	while(1) {
+        /*
 		key = KEY_GetNum();
 		if(key == KEY0_PRES)
             SD_Read_Sectorx(0);//KEY0按,读取SD卡扇区0的内容
@@ -91,6 +98,7 @@ int main(void)
 			LED1_Turn();
 			t=0;
 		}
+        */
 	}    	   
 }
 

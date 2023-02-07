@@ -20,7 +20,8 @@
 #define SD_TYPE_MMC     0X01
 #define SD_TYPE_V1      0X02
 #define SD_TYPE_V2      0X04
-#define SD_TYPE_V2HC    0X06	   
+#define SD_TYPE_V2HC    0X06	  
+
 // SD卡指令表  	   
 #define CMD0    0       //卡复位
 #define CMD1    1
@@ -56,7 +57,7 @@
  							   						 	 
 //这部分应根据具体的连线来修改!
 //MiniSTM32开发板使用的是PA3作为SD卡的CS脚.
-#define	SD_CS  PAout(3) 	//SD卡片选引脚					    	  
+#define	SD_CS  PAout(4) 	//SD卡片选引脚					    	  
 
 extern u8  SD_Type;			//SD卡的类型
 //函数申明区 
