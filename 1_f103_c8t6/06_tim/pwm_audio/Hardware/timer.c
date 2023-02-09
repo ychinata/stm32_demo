@@ -3,7 +3,10 @@
 
 #define TIM_AUDIO_SAMPLE TIM3           // 换定时器总共要改3处
 
-uint16_t g_Num;
+void PWM_SetCompare1(uint16_t Compare);
+
+uint16_t g_Num = 0;
+u8 g_PwmValue = 0;
 
 /* PWM定时器(TIM2)初始化 */
 //arr：自动重装值,psc：时钟预分频数
@@ -59,7 +62,7 @@ void PWM_SetCompare1(uint16_t Compare)
  * Author:江科大自化协
  * Date:2023.2.9
  *********************/ 
-void TIM3_TimerInit(u16 arr,u16 psc)//10000 - 1, 7200 - 1
+void TIM3_AudioSampleInit(u16 arr,u16 psc)//10000 - 1, 7200 - 1
 {
 	TIM_TimeBaseInitTypeDef TIM_TimeBaseInitStructure;    
     NVIC_InitTypeDef NVIC_InitStructure;    
@@ -99,7 +102,14 @@ void TIM3_TimerInit(u16 arr,u16 psc)//10000 - 1, 7200 - 1
 void TIM3_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM_AUDIO_SAMPLE, TIM_IT_Update) == SET) {
-		g_Num++;
+		//中断函数执行内容
+        g_Num++;
+        g_PwmValue += 10;
+        if (g_PwmValue >= 100) {
+            g_PwmValue = 0;
+        }
+		PWM_SetCompare1(g_PwmValue);
+        //
 		TIM_ClearITPendingBit(TIM_AUDIO_SAMPLE, TIM_IT_Update);
 	}
 }

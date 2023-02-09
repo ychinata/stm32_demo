@@ -13,16 +13,42 @@ void ShowAddaValue(void);
 void SetPwmValue(u8 *keyOut, u16 *pwmValOut);
 
 
+// 可否用1个定时器来实现2个定时器的功能?PWM定时器同时计数,计数到一个采样时间就换采样数据?可能会影响时间准确度
+
+/*********************
+ * Func.: main5, TIM2 PWM调整灯亮度+TIM3中断秒表
+            每秒提升一个亮度,共10级一个循环.体现音频播放的思想.
+ * Author:xy
+ * Date:2023.2.6
+ *********************/ 
+int main(void)
+{
+	OLED_Init();
+    // (72M/720)/100=1kHz,即1ms,一个PWM周期为1ms*100=0.1s
+    TIM2_PwmInit(100-1, 720-1);
+    // (72M/7200)/10000=1Hz,即1s
+	TIM3_AudioSampleInit(10000-1, 7200-1);      
+	
+    OLED_ShowString(1, 1, "PWM-LED + Second");
+	OLED_ShowString(2, 1, "Num:");    
+    
+	while (1) {
+        // 秒表显示
+        OLED_ShowNum(2, 5, g_Num, 5);
+        // 呼吸灯,PA0输出
+	}
+}
+
 /*********************
  * Func.: main4: 秒表
  * Author:江科大自化协
  * Date:2023.2.9
  *********************/ 
-int main(void)
+int main4(void)
 {
 	OLED_Init();
     // (72M/7200)/10000=1Hz,即1s
-	TIM3_TimerInit(10000 - 1, 7200 - 1);    
+	TIM3_AudioSampleInit(10000 - 1, 7200 - 1);    
 	
     OLED_ShowString(1, 1, "TIM3");
 	OLED_ShowString(2, 1, "Num:");
@@ -43,8 +69,7 @@ int main1(void)
     uint8_t i;
 	OLED_Init();
 
-    TIM2_PwmInit(100-1, 720-1); //为什么是720?
-    
+    TIM2_PwmInit(100-1, 720-1); //为什么是720?    
     //TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);
 	
     OLED_ShowString(1, 1, "TIM:PWM LED");
