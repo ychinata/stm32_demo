@@ -12,6 +12,27 @@
 void ShowAddaValue(void);
 void SetPwmValue(u8 *keyOut, u16 *pwmValOut);
 
+
+/*********************
+ * Func.: main4: 秒表
+ * Author:江科大自化协
+ * Date:2023.2.9
+ *********************/ 
+int main(void)
+{
+	OLED_Init();
+    // (72M/7200)/10000=1Hz,即1s
+	TIM3_TimerInit(10000 - 1, 7200 - 1);    
+	
+    OLED_ShowString(1, 1, "TIM3");
+	OLED_ShowString(2, 1, "Num:");
+	
+	while (1) {
+		OLED_ShowNum(2, 5, g_Num, 5);
+	}
+}
+
+
 /*********************
  * Func.: 定时器控制PWM实现呼吸灯
  * Author:江科大自化协
@@ -21,8 +42,8 @@ int main1(void)
 {
     uint8_t i;
 	OLED_Init();
-	//PWM_Init();
-    TIM2_PWM_Init(100-1, 720-1); //为什么是720?
+
+    TIM2_PwmInit(100-1, 720-1); //为什么是720?
     
     //TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);
 	
@@ -61,7 +82,7 @@ int main2(void)
  	LED_Init();			     //LED端口初始化
 	OLED_Init();			 //LCD初始化
     AD_Init();		  		 //ADC初始化
-	TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
+	TIM2_PwmInit(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
     //TIM2_PWM_Init(100-1, 720-1);
     PWM_SetCompare1(100);   //设定初始值
 
@@ -90,7 +111,7 @@ int main2(void)
     1.PWM值(即模拟DAC)由0上升到最大，再下降到最小.ADC的值跟随DAC值的变化
     2.DAC输出PA0, 环回PA2输入ADC, 并显示两个值
  *********************/ 
-int main(void)
+int main3(void)
 {	 
  	u16 i =0;	 
     u16 pwmValueMax = 255;
@@ -101,7 +122,7 @@ int main(void)
  	LED_Init();			     //LED端口初始化
 	OLED_Init();			 //LCD初始化
     AD_Init();		  		 //ADC初始化
-	TIM2_PWM_Init(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
+	TIM2_PwmInit(PWM_DAC_LEVEL-1,0);	//TIM1 PWM初始化, 8位,Fpwm=72M/256=281.25Khz.
     //TIM2_PWM_Init(100-1, 720-1);
     PWM_SetCompare1(100);   //设定初始值
 
