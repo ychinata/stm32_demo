@@ -704,16 +704,6 @@
               <FilePath>.\Hardware\OLED_Font.h</FilePath>
             </File>
             <File>
-              <FileName>PWM.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\Hardware\PWM.c</FilePath>
-            </File>
-            <File>
-              <FileName>PWM.h</FileName>
-              <FileType>5</FileType>
-              <FilePath>.\Hardware\PWM.h</FilePath>
-            </File>
-            <File>
               <FileName>AD.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\AD.c</FilePath>
@@ -722,6 +712,16 @@
               <FileName>AD.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\Hardware\AD.h</FilePath>
+            </File>
+            <File>
+              <FileName>timer.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\timer.c</FilePath>
+            </File>
+            <File>
+              <FileName>timer.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\timer.h</FilePath>
             </File>
           </Files>
         </Group>

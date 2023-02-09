@@ -950,8 +950,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM.c</PathWithFileName>
-      <FilenameWithoutPath>PWM.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\AD.c</PathWithFileName>
+      <FilenameWithoutPath>AD.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -962,8 +962,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\PWM.h</PathWithFileName>
-      <FilenameWithoutPath>PWM.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\AD.h</PathWithFileName>
+      <FilenameWithoutPath>AD.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -974,8 +974,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\AD.c</PathWithFileName>
-      <FilenameWithoutPath>AD.c</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\timer.c</PathWithFileName>
+      <FilenameWithoutPath>timer.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -986,8 +986,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\Hardware\AD.h</PathWithFileName>
-      <FilenameWithoutPath>AD.h</FilenameWithoutPath>
+      <PathWithFileName>.\Hardware\timer.h</PathWithFileName>
+      <FilenameWithoutPath>timer.h</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

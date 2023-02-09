@@ -4,7 +4,7 @@
 #include "Key.h"
 #include "LED.h"
 #include "OLED.h"
-#include "PWM.h"
+#include "timer.h"
 
 #define PWM_DAC_LEVEL 256   // 2^8=256,8Î»¾«¶È
 #define ADDA_VOL_MAX  3.3

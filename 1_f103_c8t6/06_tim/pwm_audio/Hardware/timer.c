@@ -1,4 +1,5 @@
 #include "stm32f10x.h"                  // Device header
+#include "timer.h"
 
 #define TIM_AUDIO_SAMPLE TIM3           // 换定时器总共要改3处
 

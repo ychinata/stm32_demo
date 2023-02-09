@@ -1,5 +1,7 @@
-#ifndef __PWM_H
-#define __PWM_H
+#ifndef __TIMER_H
+#define __TIMER_H
+
+#include "timer.h"
 
 extern uint16_t g_Num;
 
