@@ -6,7 +6,8 @@
 void PWM_SetCompare1(uint16_t Compare);
 
 uint16_t g_Num = 0;
-u8 g_PwmValue = 0;
+s8 g_PwmValue = 0;
+u8 g_PwmFlag = 0;
 
 /* PWM定时器(TIM2)初始化 */
 //arr：自动重装值,psc：时钟预分频数
@@ -99,15 +100,25 @@ void TIM3_AudioSampleInit(u16 arr,u16 psc)//10000 - 1, 7200 - 1
  * Author:江科大自化协
  * Date:2023.2.9
  *********************/ 
+
 void TIM3_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM_AUDIO_SAMPLE, TIM_IT_Update) == SET) {
 		//中断函数执行内容
         g_Num++;
-        g_PwmValue += 10;
-        if (g_PwmValue >= 100) {
-            g_PwmValue = 0;
-        }
+        if (g_PwmFlag == 0) {
+            g_PwmValue += 1;
+            if (g_PwmValue > 100-1) {
+                g_PwmValue = 100-1;
+                g_PwmFlag = 1;
+            } 
+        } else {
+            g_PwmValue -= 1;
+            if (g_PwmValue < 0) {
+                g_PwmValue = 0;
+                g_PwmFlag = 0;
+            }                     
+        }        
 		PWM_SetCompare1(g_PwmValue);
         //
 		TIM_ClearITPendingBit(TIM_AUDIO_SAMPLE, TIM_IT_Update);

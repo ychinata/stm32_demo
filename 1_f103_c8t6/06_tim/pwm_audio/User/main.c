@@ -17,17 +17,19 @@ void SetPwmValue(u8 *keyOut, u16 *pwmValOut);
 
 /*********************
  * Func.: main5, TIM2 PWM调整灯亮度+TIM3中断秒表
-            每秒提升一个亮度,共10级一个循环.体现音频播放的思想.
+            无软延时实现呼吸灯效果，也可以接蜂鸣器模块
+            体现音频播放的思想.
  * Author:xy
  * Date:2023.2.6
  *********************/ 
 int main(void)
 {
 	OLED_Init();
-    // (72M/720)/100=1kHz,即1ms,一个PWM周期为1ms*100=0.1s
-    TIM2_PwmInit(100-1, 720-1);
-    // (72M/7200)/10000=1Hz,即1s
-	TIM3_AudioSampleInit(10000-1, 7200-1);      
+    
+    // (72M/7200)/100/100=10kHz,即0.1ms,一个PWM周期为0.1ms*100=10ms
+    TIM2_PwmInit(100-1, 72-1);
+    // (72M/7200)/100=100Hz,即10ms
+	TIM3_AudioSampleInit(100-1, 7200-1);    
 	
     OLED_ShowString(1, 1, "PWM-LED + Second");
 	OLED_ShowString(2, 1, "Num:");    
