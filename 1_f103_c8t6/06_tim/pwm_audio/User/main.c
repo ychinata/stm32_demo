@@ -15,19 +15,53 @@ void SetPwmValue(u8 *keyOut, u16 *pwmValOut);
 
 // 可否用1个定时器来实现2个定时器的功能?PWM定时器同时计数,计数到一个采样时间就换采样数据?可能会影响时间准确度
 
+
+
+/*********************
+ * Func.: main6, 
+ * Author:xy
+ * Date:2023.2.10
+ *********************/ 
+int main(void)
+{	
+    OLED_Init();
+    
+
+    // TIM2:时钟72M，产生PWM频率32kHz 
+    //1/32K/256=0.122us=8.192Mhz
+    //分频系数：72/8.192=9
+    // (72M/9)/256=31.25kHz,即一个PWM周期为32us    
+    TIM2_PwmInit(256-1, 9-1);      //(自动重装值,预分频数:9分频)
+    
+    // TIM3:时钟72M，产生采样频率4kHz 
+    // 1/4k=250us
+    // (72M/36)/500=4kHz,即250us
+	TIM3_AudioSampleInit(500-1, 36-1);    //(自动重装值,预分频数:36分频)
+	
+    OLED_ShowString(1, 1, "PWM-Music");  
+    
+	while (1) {
+        // 秒表显示
+        OLED_ShowNum(2, 5, g_Num, 5);
+        // 呼吸灯,PA0输出
+        //要配置TIM3_IRQHandler
+	}
+}
+
+
 /*********************
  * Func.: main5, TIM2 PWM调整灯亮度+TIM3中断秒表
             无软延时实现呼吸灯效果，也可以接蜂鸣器模块
             体现音频播放的思想.
  * Author:xy
- * Date:2023.2.6
+ * Date:2023.2.9
  *********************/ 
-int main(void)
+int main5(void)
 {
 	OLED_Init();
     
     // (72M/7200)/100/100=10kHz,即0.1ms,一个PWM周期为0.1ms*100=10ms
-    TIM2_PwmInit(100-1, 72-1);
+    TIM2_PwmInit(100-1, 72-1);//PWM周期：72-10khz,36-20khz,18-40khz
     // (72M/7200)/100=100Hz,即10ms
 	TIM3_AudioSampleInit(100-1, 7200-1);    
 	
@@ -38,6 +72,7 @@ int main(void)
         // 秒表显示
         OLED_ShowNum(2, 5, g_Num, 5);
         // 呼吸灯,PA0输出
+        //要配置TIM3_IRQHandler
 	}
 }
 

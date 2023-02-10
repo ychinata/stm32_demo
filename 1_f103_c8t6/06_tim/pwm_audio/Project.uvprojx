@@ -748,6 +748,11 @@
               <FileType>5</FileType>
               <FilePath>.\User\stm32f10x_it.h</FilePath>
             </File>
+            <File>
+              <FileName>music_data.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\User\music_data.h</FilePath>
+            </File>
           </Files>
         </Group>
       </Groups>

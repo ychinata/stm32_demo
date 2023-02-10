@@ -1,12 +1,13 @@
 #include "stm32f10x.h"                  // Device header
 #include "timer.h"
+#include "music_data.h"
 
 #define TIM_AUDIO_SAMPLE TIM3           // 换定时器总共要改3处
 
 void PWM_SetCompare1(uint16_t Compare);
 
 uint16_t g_Num = 0;
-s8 g_PwmValue = 0;
+s16 g_PwmValue = 256-1;
 u8 g_PwmFlag = 0;
 
 /* PWM定时器(TIM2)初始化 */
@@ -96,11 +97,34 @@ void TIM3_AudioSampleInit(u16 arr,u16 psc)//10000 - 1, 7200 - 1
 }
 
 /*********************
- * Func.: 定时器3中断函数,用于秒表计数
+* Func.: main6:定时器3中断函数
+ * Author:江科大自化协
+ * Date:2023.2.10
+ *********************/ 
+///*
+void TIM3_IRQHandler(void)
+{
+	if (TIM_GetITStatus(TIM_AUDIO_SAMPLE, TIM_IT_Update) == SET) {
+		//中断函数执行内容
+        g_Num++;
+        if (g_Num >= 4720) {
+            g_Num = 0;  // 重头开始播放
+        }
+        g_PwmValue = g_MusicData[g_Num];
+        //g_PwmValue = 200;
+		PWM_SetCompare1(g_PwmValue);
+        //
+		TIM_ClearITPendingBit(TIM_AUDIO_SAMPLE, TIM_IT_Update);
+	}
+}
+//*/
+
+/*********************
+* Func.: main5:定时器3中断函数,用于秒表计数
  * Author:江科大自化协
  * Date:2023.2.9
  *********************/ 
-
+ /*
 void TIM3_IRQHandler(void)
 {
 	if (TIM_GetITStatus(TIM_AUDIO_SAMPLE, TIM_IT_Update) == SET) {
@@ -119,8 +143,9 @@ void TIM3_IRQHandler(void)
                 g_PwmFlag = 0;
             }                     
         }        
-		PWM_SetCompare1(g_PwmValue);
-        //
+		PWM_SetCompare1(g_PwmValue);    // 若固定写100-1,即为最大音量
+
 		TIM_ClearITPendingBit(TIM_AUDIO_SAMPLE, TIM_IT_Update);
 	}
 }
+*/
