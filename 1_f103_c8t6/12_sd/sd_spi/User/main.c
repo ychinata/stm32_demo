@@ -61,13 +61,14 @@ int main(void)
  	KEY_Init();				//按键初始化  
  	mem_init();				//初始化内存池	 
     
-    OLED_ShowString(1, 1, "SD CARD TEST");
+    OLED_ShowString(1, 1, "SD Card TEST");
 	//LCD_ShowString(60,130,200,16,16,"KEY0:Read Sector 0");	  
     
 
     //检测不到SD卡
     ret = SD_Initialize();
-    OLED_ShowHexNum(2, 1, ret, 2);
+    //OLED_ShowHexNum(2, 1, ret, 2);
+    OLED_ShowString(2, 1, "2023.2.10");
     
  	while(SD_Initialize()) {
         OLED_ShowString(3, 1, "SD Card Error!");
@@ -79,14 +80,11 @@ int main(void)
 
 	//检测SD卡成功 											    
     OLED_ShowString(3, 1, "SD Card Exist!");
-    /*
 
-
-	//LCD_ShowString(60,170,200,16,16,"SD Card Size:     MB");
+	OLED_ShowString(4, 1, "Size:");
 	sd_size=SD_GetSectorCount();//得到扇区数
-	//LCD_ShowNum(164,170,sd_size>>11,5,16);//显示SD卡容量
+	OLED_ShowNum(4, 6, sd_size, 10);//显示SD卡容量
     
-    */
 	while(1) {
         /*
 		key = KEY_GetNum();
@@ -101,8 +99,6 @@ int main(void)
         */
 	}    	   
 }
-
-
 
 // ADC单通道采集
 // 2023.1.30
