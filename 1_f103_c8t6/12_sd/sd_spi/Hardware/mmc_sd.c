@@ -197,17 +197,18 @@ u8 SD_GetCSD(u8 *csd_data)
 {
     u8 r1;	 
     r1=SD_SendCmd(CMD9,0,0x01);//发CMD9命令，读CSD
-    if(r1==0)
-	{
+    if(r1==0) {
     	r1=SD_RecvData(csd_data, 16);//接收16个字节的数据 
     }
 	SD_DisSelect();//取消片选
-	if(r1)return 1;
-	else return 0;
+	if(r1)
+        return 1;
+	else 
+        return 0;
 }  
 
 //获取SD卡的总扇区数（扇区数）   
-//返回值:0： 取容量出错 
+//返回值:1： 取容量出错 
 //       其他:SD卡的容量(扇区数/512字节)
 //每扇区的字节数必为512，因为如果不是512，则初始化不能通过.														  
 u32 SD_GetSectorCount(void)
@@ -217,7 +218,7 @@ u32 SD_GetSectorCount(void)
     u8 n;
 	u16 csize;  					    
 	//取CSD信息，如果期间出错，返回0
-    if(SD_GetCSD(csd)!=0) return 0;	    
+    if(SD_GetCSD(csd)!=0) return 1;	    // 错误
     //如果为SDHC卡，按照下面方式计算
     if((csd[0]&0xC0)==0x40)	 //V2.00的卡
     {	

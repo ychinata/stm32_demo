@@ -80,9 +80,9 @@ u8 SPI1_ReadWriteByte(u8 TxData)
 
     
     // https://bbs.21ic.com/icview-440361-1-1.html
-    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) {
+    //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_BSY) == SET) {
 	//检查指定的SPI标志位设置与否:接受缓存非空标志位
-    //while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET) {
+    while (SPI_I2S_GetFlagStatus(SPI1, SPI_I2S_FLAG_RXNE) == RESET) {
 		retry++;
 		if(retry>200)
             return 0;
