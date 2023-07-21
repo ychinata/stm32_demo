@@ -1,13 +1,16 @@
+
 #include "stm32f10x.h"
 #include "oled_soft.h"
-#include "oled_soft_font.h"
 #include "delay.h"
 //#include "usart.h"
+#ifdef _OLED_IIC_SOFT_GRAM_
+#include "oled_soft_font.h"
 
 //https://blog.csdn.net/lgyLGY35/article/details/118693991
 
 //这里用的是一种更新GRAM，实际上就是SRAM的方式来修改显示的内容，因为OLED模块不支持先读后写，所以每次写的都存在GRAM中
 //（看博客）
+
 u8 OLED_GRAM[128][8];
 
 void OLED_Refresh_Gram(void)
@@ -602,5 +605,15 @@ void OLED_ShowPicture(u8 x0,u8 y0,u8 x1,u8 y1,u8 BMP[])
             j++;
         }
     }
-}						
+}	
 
+void OLED_Test(void)
+{
+    OLED_ShowString(0,0,(u8 *)"ABCDEFGHIJKLMNO",OLED_FONTSIZE);  //第四行
+    OLED_ShowString(0,16,(u8 *)"ABCDEFGHIJKLMNO",OLED_FONTSIZE);  //第四行
+    OLED_ShowString(0,32,(u8 *)"IIC SOFT",OLED_FONTSIZE);  //第四行
+    OLED_ShowString(0,48,(u8 *)"2023.7.21",OLED_FONTSIZE);  //第四行
+    OLED_Refresh_Gram();
+}
+
+#endif

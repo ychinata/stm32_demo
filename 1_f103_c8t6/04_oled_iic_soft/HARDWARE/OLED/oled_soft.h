@@ -2,6 +2,8 @@
 #define __OLED_SOFT_H	 
 #include "sys.h"
 
+//#define _OLED_IIC_SOFT_GRAM_ 1    // 使用GRAM方式
+
 //
 #define OLED_FONTSIZE 12
 
@@ -20,10 +22,6 @@
 #define OLED_GPIO   GPIOC
 #define OLED_RCC_APB2Periph_GPIO  RCC_APB2Periph_GPIOC
 // 根据实际接线引脚修改以上配置
-
-//IO方向设置           
-#define OLED_SDA_IN()  {OLED_GPIO->CRH&=0XF0FFFFFF;OLED_GPIO->CRH|=(u32)8<<24;} //1000
-#define OLED_SDA_OUT() {OLED_GPIO->CRH&=0XF0FFFFFF;OLED_GPIO->CRH|=(u32)2<<24;} //0010
 
 void OLED_IIC_START(void);
 
@@ -58,6 +56,8 @@ void OLED_ShowNum(u8 x,u8 y,u32 num,u8 len,u8 size1);
 void OLED_ShowChinese(u8 x,u8 y,u8 num,u8 size1);
 void OLED_ScrollDisplay(u8 num,u8 space);
 void OLED_ShowPicture(u8 x0,u8 y0,u8 x1,u8 y1,u8 BMP[]);
+
+void OLED_Test(void);
 
 #endif
 
