@@ -222,6 +222,9 @@ void OLED_ON(void)
 void OLED_Init(void)
 {
 	delay_ms(500);//初始化之前的延时很重要！
+    
+    OLED_IIC_GPIO_Init();
+    
 	OLED_WrCmd(0xae);//--turn off oled panel
 	OLED_WrCmd(0x00);//---set low column address
 	OLED_WrCmd(0x10);//---set high column address

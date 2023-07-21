@@ -414,14 +414,14 @@
               <FilePath>..\HARDWARE\KEY\key.c</FilePath>
             </File>
             <File>
-              <FileName>oled_soft.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HARDWARE\OLED\oled_soft.c</FilePath>
-            </File>
-            <File>
               <FileName>oled_iic_soft.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HARDWARE\OLED\oled_iic_soft.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled_iic_soft_gram.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HARDWARE\OLED\oled_iic_soft_gram.c</FilePath>
             </File>
           </Files>
         </Group>

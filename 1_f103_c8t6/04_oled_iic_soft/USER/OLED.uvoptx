@@ -259,11 +259,11 @@
       <GroupNumber>2</GroupNumber>
       <FileNumber>6</FileNumber>
       <FileType>1</FileType>
-      <tvExp>1</tvExp>
+      <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\HARDWARE\OLED\oled_soft.c</PathWithFileName>
-      <FilenameWithoutPath>oled_soft.c</FilenameWithoutPath>
+      <PathWithFileName>..\HARDWARE\OLED\oled_iic_soft.c</PathWithFileName>
+      <FilenameWithoutPath>oled_iic_soft.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -274,8 +274,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>..\HARDWARE\OLED\oled_iic_soft.c</PathWithFileName>
-      <FilenameWithoutPath>oled_iic_soft.c</FilenameWithoutPath>
+      <PathWithFileName>..\HARDWARE\OLED\oled_iic_soft_gram.c</PathWithFileName>
+      <FilenameWithoutPath>oled_iic_soft_gram.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>

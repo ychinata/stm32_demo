@@ -1,6 +1,5 @@
-
 #include "stm32f10x.h"
-#include "oled_soft.h"
+#include "oled_iic_soft.h"
 #include "delay.h"
 //#include "usart.h"
 #ifdef _OLED_IIC_SOFT_GRAM_
@@ -612,7 +611,7 @@ void OLED_Test(void)
     OLED_ShowString(0,0,(u8 *)"ABCDEFGHIJKLMNO",OLED_FONTSIZE);  //第四行
     OLED_ShowString(0,16,(u8 *)"ABCDEFGHIJKLMNO",OLED_FONTSIZE);  //第四行
     OLED_ShowString(0,32,(u8 *)"IIC SOFT",OLED_FONTSIZE);  //第四行
-    OLED_ShowString(0,48,(u8 *)"2023.7.21",OLED_FONTSIZE);  //第四行
+    OLED_ShowString(0,48,(u8 *)"2023.7.22",OLED_FONTSIZE);  //第四行
     OLED_Refresh_Gram();
 }
 

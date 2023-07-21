@@ -2,7 +2,6 @@
 #define __OLEDFONT_H
 
 #include "oled_iic_soft.h"
-#include "oled_soft.h"
 
 #ifdef _OLED_IIC_SOFT_GRAM_
 
