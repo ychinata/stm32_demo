@@ -5,6 +5,13 @@
 //跑马灯实验  
 //技术支持：www.openedv.com
 //广州市星翼电子科技有限公司
+
+/* 引脚分配：
+
+    LED: led.h
+    
+ */
+
  int main(void)
  {	
 	delay_init();	    	 //延时函数初始化	  
