@@ -13,6 +13,27 @@
 #include "delay.h"
 #include "led.h"
 
+/* 引脚配置：
+VL53L0X_i2c_init, VL_IIC_SCL
+vl53l0x_init
+
+1.SCL
+2.SDA
+3.INT/GPIO1 - 可不用?
+4.XSH
+
+参考博客：
+https://blog.csdn.net/tiramisu_L/article/details/89502121 - 开源
+https://blog.csdn.net/qlexcel/article/details/106154743
+
+https://blog.csdn.net/wmdscjhdpy/article/details/105974739 - 开源
+https://blog.csdn.net/GG802312/article/details/105166354 - （非正点原子模块）
+https://blog.csdn.net/zhangjialu666/article/details/102022612
+
+
+
+*/
+
 //////////////////////////////////////////////////////////////////////////////////	 
 //本程序只供学习使用，未经作者许可，不得用于其它任何用途
 //ALIENTEK MiniV3 STM32开发板
