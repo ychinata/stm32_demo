@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>.\LED;.\lib\inc;.\startup;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\USER;.\VL53L0X\core\inc;.\VL53L0X\platform\inc;.\VL53L0X\demo</IncludePath>
+              <IncludePath>.\LED;.\lib\inc;.\startup;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\USER;.\VL53L0X\core\inc;.\VL53L0X\platform\inc;.\VL53L0X\demo;.\HARDWARE\TFT1.44</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -612,6 +612,26 @@
               <FileName>vl53l0x_it.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\VL53L0X\demo\vl53l0x_it.c</FilePath>
+            </File>
+          </Files>
+        </Group>
+        <Group>
+          <GroupName>Hardware</GroupName>
+          <Files>
+            <File>
+              <FileName>GUI.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\TFT1.44\GUI.c</FilePath>
+            </File>
+            <File>
+              <FileName>Lcd_Driver.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\TFT1.44\Lcd_Driver.c</FilePath>
+            </File>
+            <File>
+              <FileName>TFT_demo.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\TFT1.44\TFT_demo.c</FilePath>
             </File>
           </Files>
         </Group>

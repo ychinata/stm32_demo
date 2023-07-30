@@ -1,4 +1,3 @@
-
 #include "stm32f10x.h" //stm32头文件
 #include "usart.h"
 #include "sys.h"
@@ -6,21 +5,30 @@
 #include "led.h"
 #include "vl53l0x.h"
 #include "vl53l0x_gen.h"
+//
+#include "GUI.h"
+#include "Lcd_Driver.h"
+#include "TFT_demo.h"
+
 
 /*可以实现测距，测距精度还没有确定
 https://gitee.com/tiramisu-yang/vl53-x-series-project/tree/master
 
-F103精英板：
+RCT6 MiniPro板接线：
+SCL-->PA3
+SDA-->PA2
+INT-->不接
+XSHUT-->PA5
+见：vl53l0x_init
+VL53L0X_i2c_init
+
+
+F103精英板接线：
 SCL-->PB11
 SDA-->PB10
 XSHUT-->PA15
 
-CSDN引脚号：
-SCL-->PA3
-SDA-->PA2
-XSHUT-->PA5
-见：vl53l0x_init
-VL53L0X_i2c_init
+
 
 */
 
@@ -37,6 +45,8 @@ int main(void)
 	uint8_t data1;
     u32 delayTime;
     
+    uint8_t range[20];
+    
 	static char buf[VL53L0X_MAX_STRING_LENGTH];//测试模式字符串字符缓冲区
 	VL53L0X_Error Status=VL53L0X_ERROR_NONE;//工作状态
 	u8 mode=2; //0：默认；1：高精度；2：长距离；3：高速度
@@ -46,7 +56,15 @@ int main(void)
 	uart_init(9600);  //串口1
 	delay_init();
 	LED_Init();
+    Lcd_Init();	 //1.44寸液晶屏--初始化配置
 	delay_ms(200);
+    
+    Lcd_Clear(GRAY0);//清屏
+    Gui_DrawFont_GBK16(0,16,RED,GRAY0, "STM32F103RCT6");
+    Gui_DrawFont_GBK16(0,32,BLUE,GRAY0,"2023.7.30"); 
+    Gui_DrawFont_GBK16(0,48,BLUE,GRAY0,"VL53L0X Range:"); 
+    //Gui_DrawFont_GBK16(0,64,BLUE,GRAY0,"mcudev.taobao.com");
+    //Gui_DrawFont_GBK16(0,80,BLUE,GRAY0,"2023.7.29");    
 	
 	if(vl53l0x_init(&vl53l0x_dev))     //vl53l0x初始化
 	 {
@@ -88,6 +106,13 @@ int main(void)
         Status = vl53l0x_start_single_test(&vl53l0x_dev,&vl53l0x_data,buf);//执行一次测量
         if(Status==VL53L0X_ERROR_NONE) {
             delayTime = 100;
+            // 模块未校正有误差，手动修正30mm.临时补丁20230730
+            if (Distance_data > 30) {
+                Distance_data -= 30;
+            }
+            
+            sprintf((char*)range,"%4d mm", Distance_data);   
+            Gui_DrawFont_GBK16(0,64,BLUE,GRAY0, range);
             printf("d: %4imm\r\n",Distance_data);//打印测量距离
         } else {
             delayTime = 100;
