@@ -60,6 +60,10 @@ void vl53l0x_reset(VL53L0X_Dev_t *dev);//vl53l0x复位
 
 void vl53l0x_info(void);//获取vl53l0x设备ID信息
 void One_measurement(u8 mode);//获取一次测量距离数据
+
+void VL53L0X_MainInit(u8 mode);
+u32 VL53L0X_GetDistance(void);
+
 #endif
 
 

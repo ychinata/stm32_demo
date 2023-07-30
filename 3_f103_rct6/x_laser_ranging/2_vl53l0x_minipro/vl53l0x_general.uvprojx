@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>USE_STDPERIPH_DRIVER,STM32F10X_HD</Define>
               <Undefine></Undefine>
-              <IncludePath>.\LED;.\lib\inc;.\startup;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\USER;.\VL53L0X\core\inc;.\VL53L0X\platform\inc;.\VL53L0X\demo;.\HARDWARE\TFT1.44</IncludePath>
+              <IncludePath>.\LED;.\lib\inc;.\startup;.\SYSTEM\delay;.\SYSTEM\sys;.\SYSTEM\usart;.\USER;.\VL53L0X\core\inc;.\VL53L0X\platform\inc;.\VL53L0X\demo;.\HARDWARE\TFT1.44;.\HARDWARE\VL53L0X\core\inc;.\HARDWARE\VL53L0X\demo;.\HARDWARE\VL53L0X\platform\inc</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -561,61 +561,6 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>vl53l0x</GroupName>
-          <Files>
-            <File>
-              <FileName>vl53l0x_api.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\core\src\vl53l0x_api.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_api_calibration.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\core\src\vl53l0x_api_calibration.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_api_core.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\core\src\vl53l0x_api_core.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_api_ranging.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\core\src\vl53l0x_api_ranging.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_api_strings.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\core\src\vl53l0x_api_strings.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_i2c.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\platform\src\vl53l0x_i2c.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_platform.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\platform\src\vl53l0x_platform.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\demo\vl53l0x.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_gen.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\demo\vl53l0x_gen.c</FilePath>
-            </File>
-            <File>
-              <FileName>vl53l0x_it.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>.\VL53L0X\demo\vl53l0x_it.c</FilePath>
-            </File>
-          </Files>
-        </Group>
-        <Group>
           <GroupName>Hardware</GroupName>
           <Files>
             <File>
@@ -632,6 +577,56 @@
               <FileName>TFT_demo.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\HARDWARE\TFT1.44\TFT_demo.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_api.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\core\src\vl53l0x_api.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_api_calibration.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_calibration.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_api_core.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_core.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_api_ranging.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_ranging.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_api_strings.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_strings.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\demo\vl53l0x.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_gen.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\demo\vl53l0x_gen.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_it.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\demo\vl53l0x_it.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_i2c.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\platform\src\vl53l0x_i2c.c</FilePath>
+            </File>
+            <File>
+              <FileName>vl53l0x_platform.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\HARDWARE\VL53L0X\platform\src\vl53l0x_platform.c</FilePath>
             </File>
           </Files>
         </Group>

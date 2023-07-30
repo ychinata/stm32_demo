@@ -2,7 +2,8 @@
 #define __GUI_H
 
 #include "stdint.h"
-
+#include "Lcd_Driver.h"
+#include "TFT_demo.h"
 
 //STM32F103核心板例程
 //库函数版本例程

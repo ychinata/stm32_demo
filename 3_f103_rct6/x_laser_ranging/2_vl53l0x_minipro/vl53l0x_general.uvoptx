@@ -592,8 +592,8 @@
   </Group>
 
   <Group>
-    <GroupName>vl53l0x</GroupName>
-    <tvExp>0</tvExp>
+    <GroupName>Hardware</GroupName>
+    <tvExp>1</tvExp>
     <tvExpOptDlg>0</tvExpOptDlg>
     <cbSel>0</cbSel>
     <RteFlg>0</RteFlg>
@@ -604,8 +604,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\core\src\vl53l0x_api.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_api.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\TFT1.44\GUI.c</PathWithFileName>
+      <FilenameWithoutPath>GUI.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -616,8 +616,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\core\src\vl53l0x_api_calibration.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_api_calibration.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\TFT1.44\Lcd_Driver.c</PathWithFileName>
+      <FilenameWithoutPath>Lcd_Driver.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -628,8 +628,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\core\src\vl53l0x_api_core.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_api_core.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\TFT1.44\TFT_demo.c</PathWithFileName>
+      <FilenameWithoutPath>TFT_demo.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -640,8 +640,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\core\src\vl53l0x_api_ranging.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_api_ranging.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\core\src\vl53l0x_api.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_api.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -652,8 +652,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\core\src\vl53l0x_api_strings.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_api_strings.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_calibration.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_api_calibration.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -664,8 +664,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\platform\src\vl53l0x_i2c.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_i2c.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_core.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_api_core.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -676,8 +676,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\platform\src\vl53l0x_platform.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_platform.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_ranging.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_api_ranging.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -688,8 +688,8 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\demo\vl53l0x.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\core\src\vl53l0x_api_strings.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_api_strings.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -697,11 +697,11 @@
       <GroupNumber>6</GroupNumber>
       <FileNumber>40</FileNumber>
       <FileType>1</FileType>
-      <tvExp>0</tvExp>
+      <tvExp>1</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\demo\vl53l0x_gen.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_gen.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\demo\vl53l0x.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
@@ -712,52 +712,44 @@
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\VL53L0X\demo\vl53l0x_it.c</PathWithFileName>
-      <FilenameWithoutPath>vl53l0x_it.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\demo\vl53l0x_gen.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_gen.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
-  </Group>
-
-  <Group>
-    <GroupName>Hardware</GroupName>
-    <tvExp>0</tvExp>
-    <tvExpOptDlg>0</tvExpOptDlg>
-    <cbSel>0</cbSel>
-    <RteFlg>0</RteFlg>
     <File>
-      <GroupNumber>7</GroupNumber>
+      <GroupNumber>6</GroupNumber>
       <FileNumber>42</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\HARDWARE\TFT1.44\GUI.c</PathWithFileName>
-      <FilenameWithoutPath>GUI.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\demo\vl53l0x_it.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_it.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>7</GroupNumber>
+      <GroupNumber>6</GroupNumber>
       <FileNumber>43</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\HARDWARE\TFT1.44\Lcd_Driver.c</PathWithFileName>
-      <FilenameWithoutPath>Lcd_Driver.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\platform\src\vl53l0x_i2c.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_i2c.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
     <File>
-      <GroupNumber>7</GroupNumber>
+      <GroupNumber>6</GroupNumber>
       <FileNumber>44</FileNumber>
       <FileType>1</FileType>
       <tvExp>0</tvExp>
       <tvExpOptDlg>0</tvExpOptDlg>
       <bDave2>0</bDave2>
-      <PathWithFileName>.\HARDWARE\TFT1.44\TFT_demo.c</PathWithFileName>
-      <FilenameWithoutPath>TFT_demo.c</FilenameWithoutPath>
+      <PathWithFileName>.\HARDWARE\VL53L0X\platform\src\vl53l0x_platform.c</PathWithFileName>
+      <FilenameWithoutPath>vl53l0x_platform.c</FilenameWithoutPath>
       <RteFlg>0</RteFlg>
       <bShared>0</bShared>
     </File>
