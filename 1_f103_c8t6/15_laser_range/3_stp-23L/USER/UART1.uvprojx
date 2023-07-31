@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE;..\HARDWARE</IncludePath>
+              <IncludePath>..\USER;..\CORE;..\STM32F10x_FWLib\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HARDWARE;..\HARDWARE;..\HARDWARE\OLED_I2C</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -571,7 +571,7 @@
             <File>
               <FileName>oled.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HARDWARE\oled.c</FilePath>
+              <FilePath>..\HARDWARE\OLED_I2C\oled.c</FilePath>
             </File>
           </Files>
         </Group>
