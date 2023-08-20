@@ -17,31 +17,6 @@
 //ÊúÆÁÏÔÊ¾Í¼Æ¬Ê¾Àı
 //ºáÆÁÏÔÊ¾Í¼Æ¬Ê¾Àı
 extern const unsigned char gImage_LCD144[];
-
-
-
-
-
-
-
-
+extern const unsigned char gImage_LCD180[];
 #endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

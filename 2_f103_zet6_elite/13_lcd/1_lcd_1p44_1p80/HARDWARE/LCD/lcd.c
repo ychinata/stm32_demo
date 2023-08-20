@@ -7,7 +7,9 @@
 
 //////////////////////////////////////////////////////////////////////////////////	 
 
-//1.44寸  LCD 液晶驱动	  
+//LCD 液晶驱动：兼容1.44/1.8inch
+//本驱动程序使用的是MCU硬件SPI接口驱动
+// LCD_Display_Dir的寄存器配置1.44/1.8inch有区别，暂且沿用1.44inch的配置
   
 //STM32F4工程模板-库函数版本
 //DevEBox  大越创新
@@ -23,7 +25,7 @@
 u16 POINT_COLOR=0x0000;	//画笔颜色
 u16 BACK_COLOR=0xFFFF;  //背景色 
 
-uint8_t USE_HORIZONTAL=0;    //方向设置： 		0,竖屏模式   1,横屏模式.
+uint8_t USE_HORIZONTAL=0;    //方向设置： 		0,竖屏模式   1,横屏模式.//改了没变化20230819
 
 
 //管理LCD重要参数
@@ -262,10 +264,10 @@ u8 IO_SPI_ReadWriteByte(u8 TxData)
 
 void LCD_WR_REG(u16 regval)
 {   
-	 LCD_CS_CLR;  //LCD_CS=0  //片选
-   LCD_DC_CLR;  //LCD_DC=0  //设置命令状态
-	 LCD_SPI_ReadWriteByte(regval&0x00FF);
-	 LCD_CS_SET;  //LCD_CS=1	 
+    LCD_CS_CLR;  //LCD_CS=0  //片选
+    LCD_DC_CLR;  //LCD_DC=0  //设置命令状态
+    LCD_SPI_ReadWriteByte(regval&0x00FF);
+    LCD_CS_SET;  //LCD_CS=1	 
 }
 
 
@@ -412,7 +414,7 @@ void LCD_DisplayOff(void)
 void LCD_SoftRest(void)
 {					   
 	LCD_WR_REG(0x01);	//发送软复位命令
-	LCD_Delay_ms(100);      // delay 50 ms 
+	LCD_Delay_ms(100);      // delay 50 ms ,或者100ms
 }	
 
 
@@ -454,11 +456,11 @@ void LCD_SetCursor(u16 Xpos, u16 Ypos)
         LCD_WR_DATA16(Xpos+2);
 
         LCD_WR_REG(lcddev.setycmd);
-        LCD_WR_DATA16(Ypos+3);	
+        LCD_WR_DATA16(Ypos+3);	    // 1.8inch为+1
             
     } else {
         LCD_WR_REG(lcddev.setxcmd); 
-        LCD_WR_DATA16(Xpos+3);
+        LCD_WR_DATA16(Xpos+3);      // 1.8inch为+1
 
         LCD_WR_REG(lcddev.setycmd);
         LCD_WR_DATA16(Ypos+2);	
@@ -531,11 +533,11 @@ void LCD_Fast_DrawPoint(u16 x,u16 y,u16 color)
 //DevEBox  大越创新
 //淘宝店铺：mcudev.taobao.com
 //淘宝店铺：shop389957290.taobao.com	
+//
+// 1.44/1.8区别：选择扫描方向的寄存器配置值，当前配置为1.44inch
 //*************************************************************************/
 void LCD_Display_Dir(u8 dir)
 {
-	
-		
 	if(dir==0)			     //竖屏  正
 	{
 		lcddev.dir=0;	     //竖屏
@@ -546,15 +548,10 @@ void LCD_Display_Dir(u8 dir)
 	 	lcddev.setxcmd=0X2A;
 		lcddev.setycmd=0X2B;
 		
-    LCD_WriteReg(0x36,0xC8);//选择扫描方向		
+        LCD_WriteReg(0x36,0xC8);//选择扫描方向		
 		
-		USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.
-	
-
-	}
-	
-else if (dir==1)			 //竖屏
-	{	  				
+		USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.	
+	} else if (dir==1) {			 //竖屏
 		lcddev.dir=0;	     //竖屏
 		lcddev.width=LCD_X;
 		lcddev.height=LCD_H;
@@ -565,14 +562,8 @@ else if (dir==1)			 //竖屏
 		
 		LCD_WriteReg(0x36,0x48);//选择扫描方向		
 		
-		USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.
-		
-
-	} 	
-	
-	
-	else if (dir==2)			//横屏
-	{	  				
+		USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.		
+	} else if (dir==2) {			//横屏
 		lcddev.dir=1;	     //横屏
 		lcddev.width=LCD_H;
 		lcddev.height=LCD_X;
@@ -584,12 +575,7 @@ else if (dir==1)			 //竖屏
 		LCD_WriteReg(0x36,0xA8);//选择扫描方向		
 		
 		USE_HORIZONTAL=1;   //方向设置： 		0,竖屏模式   1,横屏模式.
-		
-
-		
-	} 
- else if (dir==3)				  //横屏
-	{	  				
+	} else if (dir==3) {			  //横屏	  				
 		lcddev.dir=1;	        //横屏
 		lcddev.width=LCD_H;
 		lcddev.height=LCD_X;
@@ -597,16 +583,10 @@ else if (dir==1)			 //竖屏
 		lcddev.wramcmd=0X2C;
 	 	lcddev.setxcmd=0X2A;
 		lcddev.setycmd=0X2B; 
-    LCD_WriteReg(0x36,0x68);//选择扫描方向		
-		
-		USE_HORIZONTAL=1;   //方向设置： 		0,竖屏模式   1,横屏模式.
-		
-
-
-	} 	
- else //设置默认为竖屏--正
- {
-	  lcddev.dir=0;	     //竖屏
+        LCD_WriteReg(0x36,0x68);//选择扫描方向				
+		USE_HORIZONTAL=1;   //方向设置： 		0,竖屏模式   1,横屏模式.		
+	} else {//设置默认为竖屏--正
+        lcddev.dir=0;	     //竖屏
 		lcddev.width=LCD_X;
 		lcddev.height=LCD_H;
     
@@ -614,22 +594,13 @@ else if (dir==1)			 //竖屏
 	 	lcddev.setxcmd=0X2A;
 		lcddev.setycmd=0X2B;
 
-	  LCD_WriteReg(0x36,0xC8);//选择扫描方向		
+        LCD_WriteReg(0x36,0xC8);//选择扫描方向		
 	 
-	  USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.
-	 
-	 
- }	 
-
-
+        USE_HORIZONTAL=0;   //方向设置： 		0,竖屏模式   1,横屏模式.	 	
+    }	 
 //////以下设置，为窗口参数设置，设置了全屏的显示范围			
 
-   LCD_Set_Window(0,0,lcddev.width,lcddev.height);//设置全屏窗口
- 
- 
- 
-
- 	
+    LCD_Set_Window(0,0,lcddev.width,lcddev.height);//设置全屏窗口  
 }	
 
 
@@ -648,34 +619,27 @@ else if (dir==1)			 //竖屏
 //*************************************************************************/
 
 void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height)
-{   
-	
-	
-	  width=sx+width-1;
-	  height=sy+height-1;
-   if(USE_HORIZONTAL==0)
-			 {
+{   	
+    width=sx+width-1;
+    height=sy+height-1;
+    if(USE_HORIZONTAL==0) {         
+        LCD_WR_REG(lcddev.setxcmd); 
+        LCD_WR_DATA16(sx+2);      //设置 X方向起点
+        LCD_WR_DATA16(width+2);   //设置 X方向终点	
+
+        LCD_WR_REG(lcddev.setycmd);
+        LCD_WR_DATA16(sy+3);      //设置 Y方向起点   // 1.8inch:+1
+        LCD_WR_DATA16(height+3);  //设置 Y方向终点    // 1.8inch:+1             
+     } else {
+        LCD_WR_REG(lcddev.setxcmd); 
+        LCD_WR_DATA16(sx+3);      //设置 X方向起点    // 1.8inch:+1
+        LCD_WR_DATA16(width+3);   //设置 X方向终点    // 1.8inch:+1
+
+        LCD_WR_REG(lcddev.setycmd);
+        LCD_WR_DATA16(sy+2);      //设置 Y方向起点
+        LCD_WR_DATA16(height+2);  //设置 Y方向终点
 				 
-				LCD_WR_REG(lcddev.setxcmd); 
-				LCD_WR_DATA16(sx+2);      //设置 X方向起点
-				LCD_WR_DATA16(width+2);   //设置 X方向终点	
-					
-				LCD_WR_REG(lcddev.setycmd);
-				LCD_WR_DATA16(sy+3);      //设置 Y方向起点
-				LCD_WR_DATA16(height+3);  //设置 Y方向终点
-				 
-			 }
-		 else
-			 {
-				  LCD_WR_REG(lcddev.setxcmd); 
-					LCD_WR_DATA16(sx+3);      //设置 X方向起点
-					LCD_WR_DATA16(width+3);   //设置 X方向终点	
-						
-					LCD_WR_REG(lcddev.setycmd);
-					LCD_WR_DATA16(sy+2);      //设置 Y方向起点
-					LCD_WR_DATA16(height+2);  //设置 Y方向终点
-				 
-		  }
+    }
 } 
 
 
@@ -688,12 +652,9 @@ void LCD_Set_Window(u16 sx,u16 sy,u16 width,u16 height)
 //淘宝店铺：mcudev.taobao.com
 //淘宝店铺：shop389957290.taobao.com
 /*******************************************************************************/
-
-void LCD_Init(void)
-{ 	
-	 
-  LCD_GPIO_Init();        //初始化驱动 I/O接口	
-	
+void LCD_Init_144(void)
+{ 		 
+    LCD_GPIO_Init();        //初始化驱动 I/O接口		
 	LCD_SoftRest();        //软复位 
 	
 	//LCD Init For 1.44Inch LCD Panel with ST7735R.
@@ -803,20 +764,114 @@ void LCD_Init(void)
 	
 	LCD_WR_REG(0x3A); //65k mode 
 	LCD_WR_DATA8(0x05); 
-	
-	
+		
 	LCD_WR_REG(0x29);//Display on	 
-
-	  LCD_Display_Dir(LCD_DIR_Mode);	//选择--屏幕显示方式
-		
-	  LCD_BLK_On;					//点亮背光
-		
-	  LCD_Clear(WHITE);
-	
-	
-	
+    LCD_Display_Dir(LCD_DIR_Mode);	//选择--屏幕显示方式		
+    LCD_BLK_On;					//点亮背光		
+    LCD_Clear(WHITE);
 }
 
+void LCD_Init_180(void)
+{ 		 
+   	LCD_GPIO_Init();        //初始化驱动 I/O接口		
+    LCD_SoftRest();        //软复位 
+	//LCD Init For 1.80Inch LCD Panel with ST7735R.
+    LCD_WR_REG(0x11);      //Sleep exit 
+    LCD_Delay_ms(120);      // delay 120 ms 
+//ST7735R Frame Rate
+    LCD_WR_REG(0xB1); 
+    LCD_WR_DATA8(0x05); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_REG(0xB2); 
+    LCD_WR_DATA8(0x05); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_REG(0xB3); 
+    LCD_WR_DATA8(0x05); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_DATA8(0x05); 
+    LCD_WR_DATA8(0x3C); 
+    LCD_WR_DATA8(0x3C); 
+    //------------------------------------End ST7735S Frame Rate---------------------------------// 
+    LCD_WR_REG(0xB4); //Dot inversion 
+    LCD_WR_DATA8(0x03); 
+    //------------------------------------ST7735S Power Sequence---------------------------------// 
+    LCD_WR_REG(0xC0); 
+    LCD_WR_DATA8(0x28); 
+    LCD_WR_DATA8(0x08); 
+    LCD_WR_DATA8(0x04); 
+    LCD_WR_REG(0xC1); 
+    LCD_WR_DATA8(0XC0); 
+    LCD_WR_REG(0xC2); 
+    LCD_WR_DATA8(0x0D); 
+    LCD_WR_DATA8(0x00); 
+    LCD_WR_REG(0xC3); 
+    LCD_WR_DATA8(0x8D); 
+    LCD_WR_DATA8(0x2A); 
+    LCD_WR_REG(0xC4); 
+    LCD_WR_DATA8(0x8D); 
+    LCD_WR_DATA8(0xEE); 
+    //---------------------------------End ST7735S Power Sequence-------------------------------------// 
+    LCD_WR_REG(0xC5); //VCOM 
+    LCD_WR_DATA8(0x1A); 
+    LCD_WR_REG(0x36); //MX, MY, RGB mode 
+    LCD_WR_DATA8(0xC0); 
+    //------------------------------------ST7735S Gamma Sequence---------------------------------// 
+    LCD_WR_REG(0xE0); 
+    LCD_WR_DATA8(0x04); 
+    LCD_WR_DATA8(0x22); 
+    LCD_WR_DATA8(0x07); 
+    LCD_WR_DATA8(0x0A); 
+    LCD_WR_DATA8(0x2E); 
+    LCD_WR_DATA8(0x30); 
+    LCD_WR_DATA8(0x25); 
+    LCD_WR_DATA8(0x2A); 
+    LCD_WR_DATA8(0x28); 
+    LCD_WR_DATA8(0x26); 
+    LCD_WR_DATA8(0x2E); 
+    LCD_WR_DATA8(0x3A); 
+    LCD_WR_DATA8(0x00); 
+    LCD_WR_DATA8(0x01); 
+    LCD_WR_DATA8(0x03); 
+    LCD_WR_DATA8(0x13); 
+    LCD_WR_REG(0xE1); 
+    LCD_WR_DATA8(0x04); 
+    LCD_WR_DATA8(0x16); 
+    LCD_WR_DATA8(0x06); 
+    LCD_WR_DATA8(0x0D); 
+    LCD_WR_DATA8(0x2D); 
+    LCD_WR_DATA8(0x26); 
+    LCD_WR_DATA8(0x23); 
+    LCD_WR_DATA8(0x27); 
+    LCD_WR_DATA8(0x27); 
+    LCD_WR_DATA8(0x25); 
+    LCD_WR_DATA8(0x2D); 
+    LCD_WR_DATA8(0x3B); 
+    LCD_WR_DATA8(0x00); 
+    LCD_WR_DATA8(0x01); 
+    LCD_WR_DATA8(0x04); 
+    LCD_WR_DATA8(0x13); 
+    //------------------------------------End ST7735S Gamma Sequence-----------------------------// 
+    LCD_WR_REG(0x3A); //65k mode 
+    LCD_WR_DATA8(0x05); 
+    LCD_WR_REG(0x29); //Display on 
+
+    LCD_Display_Dir(LCD_DIR_Mode);	//选择--屏幕显示方式		
+    LCD_BLK_On;					//点亮背光		
+    LCD_Clear(WHITE);
+}
+
+void LCD_Init(void)
+{
+#ifdef LCD_TFT_TYPE_144
+    LCD_Init_144();
+#endif
+#ifdef LCD_TFT_TYPE_180
+    LCD_Init_180();
+#endif
+}
 
 //////////////////以下函数是屏幕显示图形的简单驱动函数////////////DevEBox  大越创新//////shop389957290.taobao.com//////////////////////////////////////
 
@@ -1441,11 +1496,9 @@ void LCD_DemoMenu(void)
 	
 	Draw_Font24B(12,2,RED,"大越创新");
 	Draw_Font24B(4,30,RED,"液晶屏测试");
-
 	Draw_Font16B(4,60,BLUE,"1: 颜色填充");
 	Draw_Font16B(4,80,BLUE,"2: 文字显示");
 	Draw_Font16B(4,100,BLUE,"3: 图片显示");
-//  
 	Draw_Font16B(4,120,RED,"F:mcudev.taobao.com");
 //	Draw_Font16B(4,140,RED,"F:devebox.taobao.com");
 //	
@@ -1453,7 +1506,8 @@ void LCD_DemoMenu(void)
 
     Color_Test();       //颜色填充测试
     Font_Test();        //字体字形显示测试
-    GBK_LibFont_Test(); //GBK字库测试 -(如果使用不带字库的液晶屏版本，此处可以屏蔽，不做字库测试）
-    //Show_Picture();     //显示一张图片	// 注释掉可以减少100k的bin大小
+    // GBK字库显示不正常20230820
+//    GBK_LibFont_Test(); //GBK字库测试 -(如果使用不带字库的液晶屏版本，此处可以屏蔽，不做字库测试）
+//    Show_Picture();     //显示一张图片	// 注释掉可以减少100k的bin大小
 }
 

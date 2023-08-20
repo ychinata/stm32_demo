@@ -1,27 +1,24 @@
 #ifndef __LCD_H
 #define __LCD_H		
+//////////////////////////////////////////////////////////////////////////////////	 
+//LCD液晶屏驱动程序
+//DevEBox  大越创新
+//淘宝店铺：mcudev.taobao.com
+//淘宝店铺：shop389957290.taobao.com	
+//********************************************************************************//
 
 ///////////////////////////加入项目的关联头文件////////////////////////////////////
-
 #include "sys.h"	 
 #include "stdlib.h"
 #include "delay.h"
 
-
-
+/* LCD设置，只能定义其中一个 */
+#define LCD_TFT_TYPE_144 1  // 1.44inch屏
+//#define LCD_TFT_TYPE_180 1  // 1.80inch屏
 
 extern uint16_t D_Color; //点阵颜色
 extern uint16_t B_Color; //背景颜色
 
-//////////////////////////////////////////////////////////////////////////////////	 
-
-//LCD液晶屏驱动程序
-
-//DevEBox  大越创新
-//淘宝店铺：mcudev.taobao.com
-//淘宝店铺：shop389957290.taobao.com	
-
-//********************************************************************************//
 
 //数据类型定义
 
@@ -31,13 +28,11 @@ typedef   signed short     int int16_t;
 typedef   signed           int int32_t;
 typedef   signed       long long int64_t;
 
-
 /* exact-width unsigned integer types */
 typedef unsigned          char   uint8_t;
 typedef unsigned short     int   uint16_t;
 typedef unsigned           int   uint32_t;
 typedef unsigned       long long uint64_t;
-
 
 typedef uint32_t  u32;
 typedef uint16_t u16;
@@ -96,10 +91,6 @@ typedef uint8_t  u8;
 
 #endif 
 
-
-
-
-
 //LCD重要参数集
 typedef struct  
 {										    
@@ -119,7 +110,12 @@ typedef struct
 //支持横竖屏快速定义切换
 
 #define LCD_X  	128     //横向点阵数量
+#ifdef LCD_TFT_TYPE_144
 #define LCD_H  	128     //纵向
+#endif
+#ifdef LCD_TFT_TYPE_180
+#define LCD_H  	160     //纵向
+#endif
 
 #define LCD_DIR_Mode  	  0	    //4种工作模式，0和1是竖屏模式，2和3是横屏模式
 #define LCD_Picture  	    0	    //演示图片选择设置： 		0,竖屏图片   1,横屏图片
