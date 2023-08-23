@@ -1,5 +1,5 @@
 #include "gpio.h"
-#include "moto.h"
+#include "motor.h"
 
 void GPIO_Init_TB6612(void)
 {

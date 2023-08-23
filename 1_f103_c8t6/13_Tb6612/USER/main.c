@@ -1,7 +1,7 @@
 #include "stm32f10x.h"
 #include "delay.h"
 #include "gpio.h"
-#include "moto.h"
+#include "motor.h"
 #include "pwm.h"
 
 /***********************************************

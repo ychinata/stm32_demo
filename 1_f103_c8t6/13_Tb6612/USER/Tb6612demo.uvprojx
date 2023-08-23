@@ -559,11 +559,6 @@
           <GroupName>HAREWER</GroupName>
           <Files>
             <File>
-              <FileName>moto.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HAREWER\MOTO\moto.c</FilePath>
-            </File>
-            <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAREWER\PWM\pwm.c</FilePath>
@@ -572,6 +567,11 @@
               <FileName>gpio.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAREWER\GPIO\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HAREWER\MOTO\motor.c</FilePath>
             </File>
           </Files>
         </Group>
