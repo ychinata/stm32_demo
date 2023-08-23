@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\STM32F10x_FWLIB\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HAREWER\MOTO;..\HAREWER\PWM;..\HAREWER\GPIO</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\STM32F10x_FWLIB\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HAREWARE\MOTO;..\HAREWARE\PWM;..\HAREWARE\GPIO</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -556,22 +556,22 @@
           </Files>
         </Group>
         <Group>
-          <GroupName>HAREWER</GroupName>
+          <GroupName>HARDWARE</GroupName>
           <Files>
             <File>
-              <FileName>moto.c</FileName>
+              <FileName>gpio.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HAREWER\MOTO\moto.c</FilePath>
+              <FilePath>..\HAREWARE\GPIO\gpio.c</FilePath>
+            </File>
+            <File>
+              <FileName>motor.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HAREWARE\MOTO\motor.c</FilePath>
             </File>
             <File>
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
-              <FilePath>..\HAREWER\PWM\pwm.c</FilePath>
-            </File>
-            <File>
-              <FileName>gpio.c</FileName>
-              <FileType>1</FileType>
-              <FilePath>..\HAREWER\GPIO\gpio.c</FilePath>
+              <FilePath>..\HAREWARE\PWM\pwm.c</FilePath>
             </File>
           </Files>
         </Group>
