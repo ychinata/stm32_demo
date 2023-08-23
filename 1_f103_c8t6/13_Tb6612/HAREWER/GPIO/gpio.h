@@ -3,8 +3,8 @@
 
 #include "stm32f10x.h"
 
-void Gpio_Init(void);
-
+void GPIO_Init_TB6612(void);
+void GPIO_Init_DRV8833(void);
 
 #endif
 

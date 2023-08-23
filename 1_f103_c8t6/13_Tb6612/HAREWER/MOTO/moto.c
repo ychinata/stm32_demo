@@ -1,5 +1,6 @@
 #include "moto.h"
 #include "pwm.h"
+#include "gpio.h"
 
 /********************************************
 * @brief      电机GPIO初始化DRV8833
@@ -9,18 +10,30 @@
 *********************************************/
 void MOTOR_DRV8833Init(void)
 {
-    GPIO_InitTypeDef GPIO_InitStructure;
-    RCC_APB2PeriphClockCmd(MOTOR_IN_RCC,ENABLE);
-
-    GPIO_InitStructure.GPIO_Pin=MOTOR_PIN_AIN2|MOTOR_PIN_BIN2;//AIN2/BIN2作为方向控制
-    GPIO_InitStructure.GPIO_Mode=GPIO_Mode_Out_PP;
-    GPIO_InitStructure.GPIO_Speed=GPIO_Speed_50MHz;
-    GPIO_Init(MOTOR_IN_GPIO,&GPIO_InitStructure);
-    GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2|MOTOR_PIN_BIN2);
+    GPIO_Init_DRV8833();
     //定时器3初始化：AIN1/BIN1
     TIM3_PWM_2ChannelInit(PWM_SPEED_MAX, 72-1);
 }
 
+
+void MOTOR_TB6612Init(void)
+{
+
+}
+
+/********************************************
+ *@Func: 电机初始化接口
+ *@Author: xxy
+ *@Date: 2023.8.23
+*********************************************/
+void MOTOR_Init(void)
+{       
+#ifdef MOTOR_DRV8833    
+    MOTOR_DRV8833Init();
+#elif defined MOTOR_TB6612
+    MOTOR_TB6612Init();
+#endif    
+}
 
 /**************************************************************************
 函数功能：电机的正反转
@@ -29,17 +42,13 @@ void MOTOR_DRV8833Init(void)
 **************************************************************************/
 void MOTOR_TURN_TB6612(int mode)
 {
-	if(mode==1)
-	{
-	 GPIO_SetBits(GPIOB, GPIO_Pin_7);	 // 高电平
-	 GPIO_ResetBits(GPIOB, GPIO_Pin_8);	 // 低电平}
-	}
-	 if(mode==0)
-	{
-	 GPIO_SetBits(GPIOB, GPIO_Pin_8);	 // 高电平
-	 GPIO_ResetBits(GPIOB, GPIO_Pin_7);	 // 低电平}
-	 }
- 
+    if (mode==1) {
+        GPIO_SetBits(GPIOB, GPIO_Pin_7);	 // 高电平
+        GPIO_ResetBits(GPIOB, GPIO_Pin_8);	 // 低电平
+    } if (mode==0) {
+        GPIO_SetBits(GPIOB, GPIO_Pin_8);	 // 高电平
+        GPIO_ResetBits(GPIOB, GPIO_Pin_7);	 // 低电平
+    }
 }
 
 /********************************************
@@ -97,3 +106,23 @@ void CAR_Run_DRV8833With2PWM(int carRunMode, int speed)
     }
 }
 
+// todo
+void CAR_Run_TB6612(int carRunMode, int speed)
+{
+}
+
+/********************************************
+ *@Func: 驱动小车前进/后退，兼容两种驱动芯片
+ *@Para: speed的取值范围（0-PWM_SPEED_MAX）
+ *@Ret: 
+ *@Author: xxy
+ *@Date: 2023.8.23
+*********************************************/
+void CAR_Run(int carRunMode, int speed)
+{
+#ifdef MOTOR_DRV8833    
+    CAR_Run_DRV8833With2PWM(carRunMode, speed);    
+#elif defined MOTOR_TB6612
+    CAR_Run_TB6612(carRunMode, speed);
+#endif
+}
