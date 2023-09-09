@@ -119,20 +119,17 @@ u16	TIM3CH3_CAPTURE_VAL; //输入捕获计数值
 //定时器5中断服务程序	 
 //void TIM3_IRQHandler(void)
 //{ 
-//	if(TIM_GetITStatus(TIM3, TIM_IT_CC3)&&falling_flag==0) //发生捕获事件&&捕获事件为上升沿（按键按下，B0接通高电平）
-//		{			
-//			TIM_OC3PolarityConfig(TIM3,TIM_ICPolarity_Falling); //设置为下降沿捕获
-//			falling_flag=1; //更新标志
-//			TIM3->CNT=0; //清除计数
-//			TIM_ClearITPendingBit(TIM3, TIM_IT_CC3|TIM_IT_Update); //清除中断标志位，定时器重新计数	
-//		}	
-//  else if(TIM_GetITStatus(TIM3, TIM_IT_CC3)&&falling_flag==1) //发生捕获事件&&捕获事件为下降沿
-//  	{		
-//	    TIM3CH3_CAPTURE_VAL=TIM_GetCapture3(TIM3); //统计上升沿事件后的高电平持续时间（按键长按时间）
-//			printf("TIM3CH3_CAPTURE_VAL:%d ms\r\n",TIM3CH3_CAPTURE_VAL/10); //向串口调试助手发送统计时间，注意添加时间上限为1秒，超过1秒会重新计数
-//      TIM_OC3PolarityConfig(TIM3,TIM_ICPolarity_Rising); //设置为上升沿捕获
-//			falling_flag=0; //更新标志		
-//			TIM3->CNT=0; //清除计数
-//      TIM_ClearITPendingBit(TIM3, TIM_IT_CC3|TIM_IT_Update); //清除中断标志位		
-//	  }
+//	if(TIM_GetITStatus(TIM3, TIM_IT_CC3)&&falling_flag==0) { //发生捕获事件&&捕获事件为上升沿（按键按下，B0接通高电平）    			
+//        TIM_OC3PolarityConfig(TIM3,TIM_ICPolarity_Falling); //设置为下降沿捕获
+//        falling_flag=1; //更新标志
+//        TIM3->CNT=0; //清除计数
+//        TIM_ClearITPendingBit(TIM3, TIM_IT_CC3|TIM_IT_Update); //清除中断标志位，定时器重新计数	
+//    } else if(TIM_GetITStatus(TIM3, TIM_IT_CC3)&&falling_flag==1) { //发生捕获事件&&捕获事件为下降沿
+//        TIM3CH3_CAPTURE_VAL=TIM_GetCapture3(TIM3); //统计上升沿事件后的高电平持续时间（按键长按时间）
+//        printf("TIM3CH3_CAPTURE_VAL:%d ms\r\n",TIM3CH3_CAPTURE_VAL/10); //向串口调试助手发送统计时间，注意添加时间上限为1秒，超过1秒会重新计数
+//        TIM_OC3PolarityConfig(TIM3,TIM_ICPolarity_Rising); //设置为上升沿捕获
+//        falling_flag=0; //更新标志		
+//        TIM3->CNT=0; //清除计数
+//        TIM_ClearITPendingBit(TIM3, TIM_IT_CC3|TIM_IT_Update); //清除中断标志位		
+//    }
 //}
