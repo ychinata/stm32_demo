@@ -16,9 +16,10 @@ BÏà <-> PA0
 GND
 M+
  */
-#define ENCODER_PORT    GPIOA
-#define ENCODER_RCC     RCC_APB2Periph_GPIOA
-#define ENCODER_PIN     GPIO_Pin_1 | GPIO_Pin_0       
+ //TIM4
+#define ENCODER_PORT    GPIOB
+#define ENCODER_RCC     RCC_APB2Periph_GPIOB
+#define ENCODER_PIN     GPIO_Pin_7 | GPIO_Pin_6
 
 
 // º¯ÊýÉùÃ÷
