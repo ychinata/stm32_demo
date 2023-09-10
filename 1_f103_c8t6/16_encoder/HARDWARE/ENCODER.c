@@ -26,8 +26,8 @@ void Encoder_Init_TIM2(u16 arr,u16 psc)
 	TIM_ICInit(ENCODERL_TIM, &TIM_ICInitStructure); //根TIM_ICInitStructure参数初始化定时器TIM4编码器模式
 
     // 开启中断
-    //TIM_ClearFlag(ENCODERL_TIM, TIM_FLAG_Update);//清除TIM的更新标志位
-    //TIM_ITConfig(ENCODERL_TIM, TIM_IT_Update, ENABLE);
+    TIM_ClearFlag(ENCODERL_TIM, TIM_FLAG_Update);//清除TIM的更新标志位
+    TIM_ITConfig(ENCODERL_TIM, TIM_IT_Update, ENABLE);
     // 开启中断
     
     //Reset counter
@@ -61,12 +61,12 @@ void Encoder_Init_TIM4(u16 arr,u16 psc)
 	TIM_ICInit(ENCODERR_TIM, &TIM_ICInitStructure); //根TIM_ICInitStructure参数初始化定时器TIM4编码器模式
 
     // 开启中断
-    //TIM_ClearFlag(ENCODERR_TIM, TIM_FLAG_Update);//清除TIM的更新标志位
-    //TIM_ITConfig(ENCODERR_TIM, TIM_IT_Update, ENABLE);
+    TIM_ClearFlag(ENCODERR_TIM, TIM_FLAG_Update);//清除TIM的更新标志位
+    TIM_ITConfig(ENCODERR_TIM, TIM_IT_Update, ENABLE);
     // 开启中断
 
     //Reset counter
-    TIM_SetCounter(ENCODERL_TIM,0);
+    TIM_SetCounter(ENCODERR_TIM,0);
 	TIM_Cmd(ENCODERR_TIM, ENABLE); //使能定时器4
 }
 
@@ -80,7 +80,6 @@ void ENCODER_Init(void)
     Encoder_Init_TIM2(ENCODER_TIM_PERIOD,0);
     Encoder_Init_TIM4(ENCODER_TIM_PERIOD,0);
 }
-
 
 //读取左轮编码器计数
 int Read_Encoder_TIM2(void)
@@ -111,7 +110,7 @@ int Read_Encoder_TIM4(void)
  *@Author: xxy
  *@Date: 2023.9.10
  *********************************************/
-int ENCODER_ReadCnt(int encoderId)
+int ENCODER_ReadCntWithProc(u8 encoderId)
 {
     int cnt = -1;
     if (encoderId == ENCODER_ID_LEFT) {
@@ -129,8 +128,7 @@ Function: Read encoder count per unit time(轮趣B570版)
 返回  值：速度值
  *@Author: 轮趣科技
 **************************************************************************/
-/*
-int ENCODER_ReadCnt(u8 encoderId)
+int ENCODER_ReadCntWithoutProc(u8 encoderId)
 {
     int Encoder_TIM;    
     switch(encoderId) {
@@ -141,7 +139,17 @@ int ENCODER_ReadCnt(u8 encoderId)
     }
     return Encoder_TIM;
 }
-*/
+
+/********************************************
+ *@Func: 电机编码器读取计数值
+ *@Author: xxy
+ *@Date: 2023.9.10
+ *********************************************/
+int ENCODER_ReadCnt(u8 encoderId)
+{
+    //return ENCODER_ReadCntWithProc(encoderId);
+    return ENCODER_ReadCntWithoutProc(encoderId);
+}
 
 /**************************************************************************
 Function: TIM4 interrupt service function

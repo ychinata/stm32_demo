@@ -8,11 +8,19 @@
     编码器引脚定义
  *********************************************/
 /* 
-MG310电机编码器：
+//MG310（左电机）编码器：
 M-
 VCC
 A相 <-> PA1
 B相 <-> PA0
+GND
+M+
+
+//MG310（右电机）编码器：
+M-
+VCC
+A相 <-> PB7
+B相 <-> PB6
 GND
 M+
  */
@@ -40,6 +48,6 @@ M+
 
 // 函数声明
 void ENCODER_Init(void);
-int ENCODER_ReadCnt(int encoderId);
+int ENCODER_ReadCnt(u8 encoderId);
 
 #endif
