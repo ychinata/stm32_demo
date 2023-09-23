@@ -339,7 +339,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_MD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\CORE;..\USER;..\STM32F10x_FWLIB\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HAREWARE\MOTO;..\HAREWARE\PWM;..\HAREWARE\GPIO</IncludePath>
+              <IncludePath>..\CORE;..\USER;..\STM32F10x_FWLIB\inc;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\HAREWARE\MOTO;..\HAREWARE\PWM;..\HAREWARE\GPIO;..\HAREWARE\OLED</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -572,6 +572,11 @@
               <FileName>pwm.c</FileName>
               <FileType>1</FileType>
               <FilePath>..\HAREWARE\PWM\pwm.c</FilePath>
+            </File>
+            <File>
+              <FileName>oled.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>..\HAREWARE\OLED\oled.c</FilePath>
             </File>
           </Files>
         </Group>

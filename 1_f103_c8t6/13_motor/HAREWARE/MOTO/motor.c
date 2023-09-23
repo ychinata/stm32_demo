@@ -96,14 +96,28 @@ void CAR_Run_DRV8833With2PWM(int carRunMode, int speed)
         // BIN1-PWM, BIN2-0:正转,占空比越大,转速越快
         PWM_MOTORB_SetSpeed(speed);
         GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_BIN2);            
-    } else { // 小车后退：左轮正转，右转反转
+    } else if (carRunMode == CAR_RUN_MOED_BACKWARD) { // 小车后退：左轮正转，右转反转
         // AIN1-PWM, BIN2-0:正转,占空比越大,转速越快
         PWM_MOTORA_SetSpeed(speed);
         GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2);                           
         // BIN1-PWM, BIN2-1:反转,占空比越小,转速越快
         PWM_MOTORB_SetSpeed(PWM_SPEED_MAX-speed);
         GPIO_SetBits(MOTOR_IN_GPIO, MOTOR_PIN_BIN2);      
-    }
+    } else if (carRunMode == CAR_RUN_MOED_TURNLEFT) { // 小车左转：左轮正转，右转正转
+        // AIN1-PWM, BIN2-0:正转,占空比越大,转速越快
+        PWM_MOTORA_SetSpeed(speed);
+        GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2);  
+        // BIN1-PWM, BIN2-0:正转,占空比越大,转速越快
+        PWM_MOTORB_SetSpeed(speed);
+        GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_BIN2);      
+    } else if (carRunMode == CAR_RUN_MOED_TURNRIGHT) { // 小车右转：左轮反转，右转反转
+        // AIN1-PWM, BIN2-1:反转,占空比越小,转速越快
+        PWM_MOTORA_SetSpeed(PWM_SPEED_MAX-speed);
+        GPIO_SetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2);          
+        // BIN1-PWM, BIN2-1:反转,占空比越小,转速越快
+        PWM_MOTORB_SetSpeed(PWM_SPEED_MAX-speed);
+        GPIO_SetBits(MOTOR_IN_GPIO, MOTOR_PIN_BIN2);  
+    } else {}        
 }
 
 // todo

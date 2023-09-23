@@ -46,6 +46,8 @@
 //
 #define CAR_RUN_MOED_FORWARD  0
 #define CAR_RUN_MOED_BACKWARD 1
+#define CAR_RUN_MOED_TURNLEFT 2
+#define CAR_RUN_MOED_TURNRIGHT 3
 
 // 内部函数声明
 void MOTOR_TURN_TB6612(int mode);
