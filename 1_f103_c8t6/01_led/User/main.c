@@ -29,15 +29,12 @@ int main(void)
 	Key_Init();
     
     LED1_ON();
-    LED2_OFF();
-    
-	
+    LED2_ON();
+    	
 	while (1) {
         LED1_Turn();
         LED2_Turn();
-        Delay_ms(1000);
-        //LED1_ON();
-        //LED2_OFF();        
+        Delay_ms(500);      
 	}
 }
 

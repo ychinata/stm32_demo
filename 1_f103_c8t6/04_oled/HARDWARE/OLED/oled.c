@@ -1,29 +1,33 @@
 #include "stm32f10x.h"
 #include "OLED_Font.h"
 
+//SCL-SDA: PB6/7-I2C1, PB8/9-I2C1, PA11/12-?, PB10/11-I2C2
+
 //#define OLED_4PIN_SCL GPIO_Pin_6
 //#define OLED_4PIN_SDA GPIO_Pin_7
 #define OLED_4PIN_SCL GPIO_Pin_8	// 江科大推荐,此时Pin_6/7要接VCC/GND
 #define OLED_4PIN_SDA GPIO_Pin_9	// 江科大推荐,此时Pin_6/7要接VCC/GND
+#define GPIO_PORT_OLED              GPIOB
+#define RCC_APB2Periph_GPIO_OLED    RCC_APB2Periph_GPIOB
 
 /*引脚配置*/
-#define OLED_W_SCL(x)		GPIO_WriteBit(GPIOB, OLED_4PIN_SCL, (BitAction)(x))
-#define OLED_W_SDA(x)		GPIO_WriteBit(GPIOB, OLED_4PIN_SDA, (BitAction)(x))
+#define OLED_W_SCL(x)		GPIO_WriteBit(GPIO_PORT_OLED, OLED_4PIN_SCL, (BitAction)(x))
+#define OLED_W_SDA(x)		GPIO_WriteBit(GPIO_PORT_OLED, OLED_4PIN_SDA, (BitAction)(x))
 
 /*引脚初始化*/
 void OLED_I2C_Init(void)
 {
 	GPIO_InitTypeDef GPIO_InitStructure; // 声明必须放在函数第一行
     
-    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);
+    RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIO_OLED, ENABLE);
 
  	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_OD;
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;
     
 	GPIO_InitStructure.GPIO_Pin = OLED_4PIN_SCL;
- 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 	GPIO_Init(GPIO_PORT_OLED, &GPIO_InitStructure);
 	GPIO_InitStructure.GPIO_Pin = OLED_4PIN_SDA;
- 	GPIO_Init(GPIOB, &GPIO_InitStructure);
+ 	GPIO_Init(GPIO_PORT_OLED, &GPIO_InitStructure);
 	
 	OLED_W_SCL(1);
 	OLED_W_SDA(1);
