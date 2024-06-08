@@ -18,6 +18,19 @@ Update：2021-04-29
 All rights reserved
 ***********************************************/
 #include "hc-sr04.h"
+
+/**************************************************************************
+硬件连接: 
+HC-SR04 <-> STM32F103C8T6
+GND      -  GND
+ECHO     -  PB0 // TIM3-CH3
+TRIG     -  PB1
+VCC      -  5V
+
+
+**************************************************************************/	
+
+
 /**************************************************************************
 Function: Timer 3 channel 3 input capture initialization
 Input   : arr：Auto reload value； psc： Clock prescaled frequency
@@ -35,7 +48,7 @@ void HCSR04_Init(u16 arr,u16 psc)
  	NVIC_InitTypeDef NVIC_InitStructure;
 
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);	//使能TIM3时钟
- 	RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOB, ENABLE);  //使能GPIOB时钟
+ 	RCC_APB2PeriphClockCmd(HCSR04_RCC_TRIG | HCSR04_RCC_ECHO, ENABLE);  //使能GPIO时钟
 	
 	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0; 
 	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //PB0 输入  
@@ -83,17 +96,18 @@ Output  : none
 u16 TIM3CH3_CAPTURE_STA,TIM3CH3_CAPTURE_VAL;
 void HCSR04_GetDistane(void)        
 {   
-	 PBout(1)=1;         
-	 delay_us(15);  
-	 PBout(1)=0;	
-	 if(TIM3CH3_CAPTURE_STA&0X80)//成功捕获到了一次高电平
-	 {
-		 Distance=TIM3CH3_CAPTURE_STA&0X3F; 
-		 Distance*=65536;					        //溢出时间总和
-		 Distance+=TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
-		 Distance=Distance*170/1000;      //时间*声速/2（来回） 一个计数0.001ms
-		 TIM3CH3_CAPTURE_STA=0;			//开启下一次捕获
-	 }				
+    // TRIG引脚发出高电平
+    PBout(1)=1;         
+    delay_us(15);  
+    PBout(1)=0;	
+    
+    if(TIM3CH3_CAPTURE_STA&0X80) {          //成功捕获到了一次高电平
+        Distance=TIM3CH3_CAPTURE_STA&0X3F; 
+        Distance*=65536;					        //溢出时间总和
+        Distance+=TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
+        Distance=Distance*170/1000;      //时间*声速/2（来回） 一个计数0.001ms
+        TIM3CH3_CAPTURE_STA=0;			//开启下一次捕获
+    }				
 }
 
 /**************************************************************************

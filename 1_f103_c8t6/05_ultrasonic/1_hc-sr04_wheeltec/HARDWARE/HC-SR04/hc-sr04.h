@@ -21,6 +21,23 @@ All rights reserved
 #define __HC_SR04_H
 
 #include <sys.h>	 
+
+// 引脚定义（需手动修改）
+#define HCSR04_GPIO_ENUM_TRIG    ENUM_GPIO_B
+#define HCSR04_PIN_ENUM_TRIG     ENUM_Pin_1
+#define HCSR04_GPIO_ENUM_ECHO    ENUM_GPIO_B
+#define HCSR04_PIN_ENUM_ECHO     ENUM_Pin_0
+
+// 引脚定义（无需修改）
+#define HCSR04_GPIO_TRIG    ((GPIO_TypeDef *) (APB2PERIPH_BASE + 0x0800 + 0x400*HCSR04_GPIO_ENUM_TRIG))
+#define HCSR04_PIN_TRIG     GPIO_Pin_1
+#define HCSR04_RCC_TRIG     ((uint32_t)(4<<HCSR04_GPIO_ENUM_TRIG))
+
+#define HCSR04_GPIO_ECHO    ((GPIO_TypeDef *) (APB2PERIPH_BASE + 0x0800 + 0x400*HCSR04_GPIO_ENUM_ECHO))
+#define HCSR04_PIN_ECHO     GPIO_Pin_0
+#define HCSR04_RCC_ECHO     ((uint32_t)(4<<HCSR04_GPIO_ENUM_ECHO))
+
+// 函数声明
 void HCSR04_Init(u16 arr,u16 psc);
 void HCSR04_GetDistane(void);
 void TIM3_IRQHandler(void);

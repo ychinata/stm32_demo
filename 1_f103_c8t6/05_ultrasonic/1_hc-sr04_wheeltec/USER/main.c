@@ -16,9 +16,9 @@ int main(void)
     HCSR04_Init(0XFFFF, 72-1);  // ³¬Éù²¨²â¾àÄ£¿é
     
 	
-	OLED_ShowChar(1, 1, 'A');
-    OLED_ShowString(1, 1, "Hello,4Pin OLED!");
-    OLED_ShowString(3, 1, "2022.5.1");    
+    OLED_ShowString(OLED_LINE1, 1, "HC-SR04 Demo");
+    OLED_ShowString(OLED_LINE2, 5, "(mm)");
+    OLED_ShowString(OLED_LINE4, 1, "2024.6.8");    
 	// OLED_ShowString(1, 3, "HelloWorld!");
 	// OLED_ShowNum(2, 1, 12345, 5);
 	// OLED_ShowSignedNum(2, 7, -66, 2);
@@ -30,7 +30,7 @@ int main(void)
 		LED1=1;
         
         HCSR04_GetDistane();
-        OLED_ShowNum(OLED_LINE2, 1, Distance, 8);
+        OLED_ShowNum(OLED_LINE2, 1, Distance, 4);
         
         //OLED_ShowString(OLED_LINE2, 1, "123456--");  
 		//delay_ms(300);	 //ÑÓÊ±300ms
