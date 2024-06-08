@@ -17,7 +17,7 @@ Update：2021-04-29
 
 All rights reserved
 ***********************************************/
-#include "timer.h"
+#include "hc-sr04.h"
 /**************************************************************************
 Function: Timer 3 channel 3 input capture initialization
 Input   : arr：Auto reload value； psc： Clock prescaled frequency
@@ -27,7 +27,8 @@ Output  : none
 返回  值：无
 **************************************************************************/	 		
 TIM_ICInitTypeDef  TIM3_ICInitStructure;
-void TIM3_Cap_Init(u16 arr,u16 psc)	
+//原函数名TIM3_Cap_Init
+void HCSR04_Init(u16 arr,u16 psc)	
 {	 
 	GPIO_InitTypeDef GPIO_InitStructure;
 	TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
@@ -55,11 +56,11 @@ void TIM3_Cap_Init(u16 arr,u16 psc)
   
 	//初始化TIM3输入捕获参数
 	TIM3_ICInitStructure.TIM_Channel = TIM_Channel_3; //CC1S=03 	选择输入端 IC3映射到TI1上
-  TIM3_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;	//上升沿捕获
-  TIM3_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
-  TIM3_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;	 //配置输入分频,不分频 
-  TIM3_ICInitStructure.TIM_ICFilter = 0x00;//配置输入滤波器 不滤波
-  TIM_ICInit(TIM3, &TIM3_ICInitStructure);
+    TIM3_ICInitStructure.TIM_ICPolarity = TIM_ICPolarity_Rising;	//上升沿捕获
+    TIM3_ICInitStructure.TIM_ICSelection = TIM_ICSelection_DirectTI;
+    TIM3_ICInitStructure.TIM_ICPrescaler = TIM_ICPSC_DIV1;	 //配置输入分频,不分频 
+    TIM3_ICInitStructure.TIM_ICFilter = 0x00;//配置输入滤波器 不滤波
+    TIM_ICInit(TIM3, &TIM3_ICInitStructure);
 	
 	//中断分组初始化
 	NVIC_InitStructure.NVIC_IRQChannel = TIM3_IRQn;  //TIM3中断
@@ -68,8 +69,9 @@ void TIM3_Cap_Init(u16 arr,u16 psc)
 	NVIC_InitStructure.NVIC_IRQChannelCmd = ENABLE; //IRQ通道被使能
 	NVIC_Init(&NVIC_InitStructure);  //根据NVIC_InitStruct中指定的参数初始化外设NVIC寄存器 	
 	TIM_ITConfig(TIM3,TIM_IT_Update|TIM_IT_CC3,ENABLE);//允许更新中断 ,允许CC3IE捕获中断	
-  TIM_Cmd(TIM3,ENABLE ); 	//使能定时器3
+    TIM_Cmd(TIM3,ENABLE ); 	//使能定时器3
 }
+
 /**************************************************************************
 Function: Ultrasonic receiving echo function
 Input   : none
@@ -79,7 +81,7 @@ Output  : none
 返回  值：无
 **************************************************************************/	 	
 u16 TIM3CH3_CAPTURE_STA,TIM3CH3_CAPTURE_VAL;
-void Read_Distane(void)        
+void HCSR04_GetDistane(void)        
 {   
 	 PBout(1)=1;         
 	 delay_us(15);  
@@ -93,6 +95,7 @@ void Read_Distane(void)
 		 TIM3CH3_CAPTURE_STA=0;			//开启下一次捕获
 	 }				
 }
+
 /**************************************************************************
 Function: Pulse width reading interruption of ultrasonic echo
 Input   : none

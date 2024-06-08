@@ -3,6 +3,11 @@
 
 #define uint8_t u8
 
+#define OLED_LINE1  1
+#define OLED_LINE2  2
+#define OLED_LINE3  3
+#define OLED_LINE4  4
+
 void OLED_Init(void);
 void OLED_Clear(void);
 void OLED_ShowChar(uint8_t Line, uint8_t Column, char Char);

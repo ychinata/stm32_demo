@@ -17,12 +17,12 @@ Update£º2021-04-29
 
 All rights reserved
 ***********************************************/
-#ifndef __TIMER_H
-#define __TIMER_H
+#ifndef __HC_SR04_H
+#define __HC_SR04_H
 
 #include <sys.h>	 
-void TIM3_Cap_Init(u16 arr,u16 psc);
-void Read_Distane(void);
+void HCSR04_Init(u16 arr,u16 psc);
+void HCSR04_GetDistane(void);
 void TIM3_IRQHandler(void);
 
 #endif
