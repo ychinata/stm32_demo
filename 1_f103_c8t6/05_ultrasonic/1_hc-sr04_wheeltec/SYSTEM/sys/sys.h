@@ -69,6 +69,11 @@ extern u32 Distance;                                          		//超声波测距
 #define PGout(n)   BIT_ADDR(GPIOG_ODR_Addr,n)  //输出 
 #define PGin(n)    BIT_ADDR(GPIOG_IDR_Addr,n)  //输入
 
+//Author:xxy
+//2024.6.9
+#define GPIOx_ODR_ARRD(enum_gpiox)    (APB2PERIPH_BASE+0x0800+0x400*enum_gpiox+12)
+#define GPIOx_OUT(enum_gpiox, enum_pinx)   BIT_ADDR(GPIOx_ODR_ARRD(enum_gpiox), enum_pinx)  //输出 
+
 //以下为汇编函数
 void WFI_SET(void);		//执行WFI指令
 void INTX_DISABLE(void);//关闭所有中断

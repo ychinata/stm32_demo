@@ -101,17 +101,17 @@ Output  : none
 u16 TIM3CH3_CAPTURE_STA,TIM3CH3_CAPTURE_VAL;
 void HCSR04_GetDistane(void)        
 {   
-    // TRIG引脚发出高电平
-    PBout(1)=1;         
+    // TRIG引脚发出高电平         
+    GPIOx_OUT(ENUM_GPIO_B, ENUM_Pin_1) = 1; //PBout(1)=1;
     delay_us(15);  
-    PBout(1)=0;	
+    GPIOx_OUT(ENUM_GPIO_B, ENUM_Pin_1) = 0; //PBout(1)=0;	
     
-    if(TIM3CH3_CAPTURE_STA&0X80) {          //成功捕获到了一次高电平
-        Distance=TIM3CH3_CAPTURE_STA&0X3F; 
-        Distance*=65536;					        //溢出时间总和
-        Distance+=TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
-        Distance=Distance*170/1000;      //时间*声速/2（来回） 一个计数0.001ms
-        TIM3CH3_CAPTURE_STA=0;			//开启下一次捕获
+    if (TIM3CH3_CAPTURE_STA&0X80) {          //成功捕获到了一次高电平
+        Distance = TIM3CH3_CAPTURE_STA&0X3F; 
+        Distance *= 65536;					        //溢出时间总和
+        Distance += TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
+        Distance = Distance * 170 / 1000;      //时间*声速/2（来回） 一个计数0.001ms//超声波空气传播速度是340m/s
+        TIM3CH3_CAPTURE_STA = 0;			//开启下一次捕获
     }				
 }
 
