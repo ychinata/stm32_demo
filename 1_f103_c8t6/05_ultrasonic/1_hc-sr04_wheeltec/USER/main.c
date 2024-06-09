@@ -18,7 +18,7 @@ int main(void)
 	
     OLED_ShowString(OLED_LINE1, 1, "HC-SR04 Demo");
     OLED_ShowString(OLED_LINE2, 5, "(mm)");
-    OLED_ShowString(OLED_LINE4, 1, "2024.6.8");    
+    OLED_ShowString(OLED_LINE4, 1, "2024.6.9");    
 	// OLED_ShowString(1, 3, "HelloWorld!");
 	// OLED_ShowNum(2, 1, 12345, 5);
 	// OLED_ShowSignedNum(2, 7, -66, 2);

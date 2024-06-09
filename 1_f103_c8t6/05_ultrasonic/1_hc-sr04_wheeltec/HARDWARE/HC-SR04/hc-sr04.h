@@ -30,11 +30,11 @@ All rights reserved
 
 // 引脚定义（无需修改）
 #define HCSR04_GPIO_TRIG    ((GPIO_TypeDef *) (APB2PERIPH_BASE + 0x0800 + 0x400*HCSR04_GPIO_ENUM_TRIG))
-#define HCSR04_PIN_TRIG     GPIO_Pin_1
+#define HCSR04_PIN_TRIG     ((uint16_t)(0x1 << HCSR04_PIN_ENUM_TRIG))//GPIO_Pin_1
 #define HCSR04_RCC_TRIG     ((uint32_t)(4<<HCSR04_GPIO_ENUM_TRIG))
 
 #define HCSR04_GPIO_ECHO    ((GPIO_TypeDef *) (APB2PERIPH_BASE + 0x0800 + 0x400*HCSR04_GPIO_ENUM_ECHO))
-#define HCSR04_PIN_ECHO     GPIO_Pin_0
+#define HCSR04_PIN_ECHO     ((uint16_t)(0x1 << HCSR04_PIN_ENUM_ECHO))//GPIO_Pin_0
 #define HCSR04_RCC_ECHO     ((uint32_t)(4<<HCSR04_GPIO_ENUM_ECHO))
 
 // 函数声明

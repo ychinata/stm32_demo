@@ -27,6 +27,10 @@ ECHO     -  PB0 // TIM3-CH3
 TRIG     -  PB1
 VCC      -  5V
 
+//todo
+pin
+global
+PBout
 
 **************************************************************************/	
 
@@ -50,15 +54,16 @@ void HCSR04_Init(u16 arr,u16 psc)
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM3, ENABLE);	//使能TIM3时钟
  	RCC_APB2PeriphClockCmd(HCSR04_RCC_TRIG | HCSR04_RCC_ECHO, ENABLE);  //使能GPIO时钟
 	
-	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_0; 
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; //PB0 输入  
+    //ECHO-PB0 输入  
+	GPIO_InitStructure.GPIO_Pin  = HCSR04_PIN_ECHO; 
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_IPD; 
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;     //50M
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
-	
-	GPIO_InitStructure.GPIO_Pin  = GPIO_Pin_1;     
-	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;     //PB1输出 
+	GPIO_Init(HCSR04_GPIO_ECHO, &GPIO_InitStructure);
+	//TRIG-PB1输出
+	GPIO_InitStructure.GPIO_Pin  = HCSR04_PIN_TRIG;     
+	GPIO_InitStructure.GPIO_Mode = GPIO_Mode_Out_PP;     
 	GPIO_InitStructure.GPIO_Speed = GPIO_Speed_50MHz;     //50M
-	GPIO_Init(GPIOB, &GPIO_InitStructure);
+	GPIO_Init(HCSR04_GPIO_TRIG, &GPIO_InitStructure);
 	
 	//初始化定时器3 TIM3	 
 	TIM_TimeBaseStructure.TIM_Period = arr; //设定计数器自动重装值 
