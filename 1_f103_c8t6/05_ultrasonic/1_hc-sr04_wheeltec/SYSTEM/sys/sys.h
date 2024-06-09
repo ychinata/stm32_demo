@@ -15,9 +15,6 @@
 //All rights reserved
 ////////////////////////////////////////////////////////////////////////////////// 	 
 
-
-extern u32 Distance;                                          		//超声波测距
-
 //0,不支持ucos
 //1,支持ucos
 #define SYSTEM_SUPPORT_OS		0		//定义系统文件夹是否支持UCOS

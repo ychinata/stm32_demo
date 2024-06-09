@@ -1,4 +1,4 @@
-/***********************************************
+/****************************文件说明************************************
 公司：轮趣科技（东莞）有限公司
 品牌：WHEELTEC
 官网：wheeltec.net
@@ -6,43 +6,35 @@
 速卖通: https://minibalance.aliexpress.com/store/4455017
 版本：5.7
 修改时间：2021-04-29
-
- 
 Brand: WHEELTEC
 Website: wheeltec.net
 Taobao shop: shop114407458.taobao.com 
 Aliexpress: https://minibalance.aliexpress.com/store/4455017
 Version:5.7
 Update：2021-04-29
-
 All rights reserved
-***********************************************/
+**************************************************************************/
 #include "hc-sr04.h"
 
-/**************************************************************************
-硬件连接: 
+/******************************硬件连接************************************
 HC-SR04 <-> STM32F103C8T6
 GND      -  GND
 ECHO     -  PB0 // TIM3-CH3
 TRIG     -  PB1
 VCC      -  5V
+**************************************************************************/
 
-//todo
-pin
-global
-PBout
+/******************************函数定义***********************************/
 
-**************************************************************************/	
-
-
-/**************************************************************************
+/***************
 Function: Timer 3 channel 3 input capture initialization
 Input   : arr：Auto reload value； psc： Clock prescaled frequency
 Output  : none
 函数功能：定时器3通道3输入捕获初始化
 入口参数: arr：自动重装值； psc：时钟预分频数 
 返回  值：无
-**************************************************************************/	 		
+修改历史：1.引脚配置参数化,xxy,20240609
+***************/
 TIM_ICInitTypeDef  TIM3_ICInitStructure;
 //原函数名TIM3_Cap_Init
 void HCSR04_Init(u16 arr,u16 psc)	
@@ -90,39 +82,40 @@ void HCSR04_Init(u16 arr,u16 psc)
     TIM_Cmd(TIM3,ENABLE ); 	//使能定时器3
 }
 
-/**************************************************************************
+/***************
 Function: Ultrasonic receiving echo function
-Input   : none
-Output  : none
 函数功能：超声波接收回波函数
 入口参数: 无 
-返回  值：无
-**************************************************************************/	 	
+返回  值：distance_mm 单位：毫米
+修改历史：1.增加返回值,xxy,20240609
+***************/
 u16 TIM3CH3_CAPTURE_STA,TIM3CH3_CAPTURE_VAL;
-void HCSR04_GetDistane(void)        
+u32 HCSR04_GetDistane(void)        
 {   
+    u32 distance_mm = 0xFFFFFFFF;
     // TRIG引脚发出高电平         
     GPIOx_OUT(ENUM_GPIO_B, ENUM_Pin_1) = 1; //PBout(1)=1;
     delay_us(15);  
     GPIOx_OUT(ENUM_GPIO_B, ENUM_Pin_1) = 0; //PBout(1)=0;	
     
     if (TIM3CH3_CAPTURE_STA&0X80) {          //成功捕获到了一次高电平
-        Distance = TIM3CH3_CAPTURE_STA&0X3F; 
-        Distance *= 65536;					        //溢出时间总和
-        Distance += TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
-        Distance = Distance * 170 / 1000;      //时间*声速/2（来回） 一个计数0.001ms//超声波空气传播速度是340m/s
+        distance_mm = TIM3CH3_CAPTURE_STA&0X3F; 
+        distance_mm *= 65536;					        //溢出时间总和
+        distance_mm += TIM3CH3_CAPTURE_VAL;		//得到总的高电平时间
+        distance_mm = distance_mm * 170 / 1000;      //时间*声速/2（来回） 一个计数0.001ms//超声波空气传播速度是340m/s
         TIM3CH3_CAPTURE_STA = 0;			//开启下一次捕获
-    }				
+    }		    
+    return distance_mm;    
 }
 
-/**************************************************************************
+/***************
 Function: Pulse width reading interruption of ultrasonic echo
 Input   : none
 Output  : none
 函数功能：超声波回波脉宽读取中断
 入口参数: 无 
 返回  值：无
-**************************************************************************/	 
+***************/
 void TIM3_IRQHandler(void)
 { 		    		  			    
 	u16 tsr;

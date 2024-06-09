@@ -5,13 +5,14 @@
 #include "led.h"
 #include "sys.h"
 
-u32 Distance;                               //超声波测距
-
+//2024.6.9说明：基于江协科技STM32-OLED工程修改，增加my_gpio.h
 
 int main(void)
 {
+    u32 distance_mm = 0xFFFFFFFF;
+    //模块初始化
 	delay_init();	    //延时函数初始化	  
-	LED_Init();		  	//初始化与LED连接的硬件接口     
+	//LED_Init();		  	//初始化与LED连接的硬件接口     
 	OLED_Init();
     HCSR04_Init(0XFFFF, 72-1);  // 超声波测距模块
     
@@ -20,25 +21,11 @@ int main(void)
     OLED_ShowString(OLED_LINE2, 5, "(mm)");
     OLED_ShowString(OLED_LINE3, 1, "TrigPB1,EchoPB0");
     OLED_ShowString(OLED_LINE4, 1, "2024.6.9");    
-	// OLED_ShowString(1, 3, "HelloWorld!");
-	// OLED_ShowNum(2, 1, 12345, 5);
-	// OLED_ShowSignedNum(2, 7, -66, 2);
-	// OLED_ShowHexNum(3, 1, 0xAA55, 4);
-	// OLED_ShowBinNum(4, 1, 0xAA55, 16);
 	
-	while(1) {
-		LED0=0;
-		LED1=1;
+	while(1) {        
+        distance_mm = HCSR04_GetDistane();          // 获取超声波模块测量的距离
+        OLED_ShowNum(OLED_LINE2, 1, distance_mm, 4);// 在OLED显示距离
         
-        HCSR04_GetDistane();
-        OLED_ShowNum(OLED_LINE2, 1, Distance, 4);
-        
-        //OLED_ShowString(OLED_LINE2, 1, "123456--");  
-		//delay_ms(300);	 //延时300ms
-        
-		//LED0=1;
-		//LED1=0;
-        //OLED_ShowString(2, 1, "->abcdef");
 		delay_ms(300);	//延时300ms
 	}
     
