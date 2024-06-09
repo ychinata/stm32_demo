@@ -2,6 +2,9 @@
 #define _MY_GPIO_H_
 //#include <sys.h>
 
+/**************************************************************************
+ *枚举定义
+ **************************************************************************/	
 typedef enum {
     ENUM_GPIO_A = 0x00,
     ENUM_GPIO_B = 0x01,
@@ -37,6 +40,15 @@ typedef enum {
     AIN      =  0x1E,  //模拟输入
 }GPIO_MODE_enum;  //定义IO口模式
 
+/**************************************************************************
+ *宏定义
+ **************************************************************************/	
+
+// HCSR04超声波测距模块-引脚定义（根据实际硬件连接修改）
+#define HCSR04_GPIO_ENUM_TRIG    ENUM_GPIO_B
+#define HCSR04_PIN_ENUM_TRIG     ENUM_Pin_1
+#define HCSR04_GPIO_ENUM_ECHO    ENUM_GPIO_B
+#define HCSR04_PIN_ENUM_ECHO     ENUM_Pin_0
 
 //void gpio_init(GPIOn_Enum GPIOn,Pinx_Enum Pinx,GPIO_MODE_enum mode);
 //void gpio_set(GPIOn_Enum GPIOn,Pinx_Enum Pinx,uint8_t mode);

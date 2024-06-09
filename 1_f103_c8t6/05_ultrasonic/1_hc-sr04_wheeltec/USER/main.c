@@ -15,9 +15,10 @@ int main(void)
 	OLED_Init();
     HCSR04_Init(0XFFFF, 72-1);  // 超声波测距模块
     
-	
+	// 初始化显示
     OLED_ShowString(OLED_LINE1, 1, "HC-SR04 Demo");
     OLED_ShowString(OLED_LINE2, 5, "(mm)");
+    OLED_ShowString(OLED_LINE3, 1, "TrigPB1,EchoPB0");
     OLED_ShowString(OLED_LINE4, 1, "2024.6.9");    
 	// OLED_ShowString(1, 3, "HelloWorld!");
 	// OLED_ShowNum(2, 1, 12345, 5);

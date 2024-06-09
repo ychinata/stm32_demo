@@ -340,7 +340,7 @@
               <MiscControls></MiscControls>
               <Define>STM32F10X_HD,USE_STDPERIPH_DRIVER</Define>
               <Undefine></Undefine>
-              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\OLED;..\HARDWARE\HC-SR04</IncludePath>
+              <IncludePath>..\HARDWARE\LED;..\SYSTEM\delay;..\SYSTEM\sys;..\SYSTEM\usart;..\USER;..\STM32F10x_FWLib\inc;..\CORE;..\HARDWARE\KEY;..\HARDWARE\OLED;..\HARDWARE\HC-SR04;..\HARDWARE\GPIO</IncludePath>
             </VariousControls>
           </Cads>
           <Aads>
@@ -433,6 +433,11 @@
               <FileName>OLED.h</FileName>
               <FileType>5</FileType>
               <FilePath>..\HARDWARE\OLED\OLED.h</FilePath>
+            </File>
+            <File>
+              <FileName>my_gpio.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>..\HARDWARE\GPIO\my_gpio.h</FilePath>
             </File>
           </Files>
         </Group>
