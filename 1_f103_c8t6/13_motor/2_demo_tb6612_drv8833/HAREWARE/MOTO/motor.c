@@ -15,7 +15,6 @@ void MOTOR_DRV8833Init(void)
     TIM3_PWM_2ChannelInit(PWM_SPEED_MAX, 72-1);
 }
 
-
 /********************************************
 * @brief      电机驱动TB6612 GPIO初始化
               //AIN1/2/BIN1/2作为方向控制
@@ -25,6 +24,7 @@ void MOTOR_DRV8833Init(void)
 void MOTOR_TB6612Init(void)
 {
     GPIO_Init_TB6612();         //初始化电机硬件接口，用于驱动电机. 
+    GPIO_Init_TB6612Pwm();
     PWM_InitTb6612(7199,0);   //初始化PWM 10KHZ - 72M时钟/7.2k=10k
 }
 

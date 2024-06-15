@@ -5,6 +5,7 @@
 
 void GPIO_Init_TB6612(void);
 void GPIO_Init_DRV8833(void);
+void GPIO_Init_TB6612Pwm(void);
 
 #endif
 
