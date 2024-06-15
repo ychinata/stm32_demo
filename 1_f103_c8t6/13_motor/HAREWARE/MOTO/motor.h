@@ -25,6 +25,7 @@
 //BIN2 <-> PA4
 //------------接线说明---------------
 
+/*
 //huifei-DRV8833
 #define MOTOR_IN_GPIO      GPIOA
 // left
@@ -35,10 +36,33 @@
 #define MOTOR_PIN_BIN2 GPIO_Pin_4
 #define MOTOR_IN_RCC    RCC_APB2Periph_GPIOA
 //huifei-DRV8833
+*/
+
+//轮趣平衡车B570：TB6612
+#define MOTOR_IN_RCC    RCC_APB2Periph_GPIOB
+#define MOTOR_IN_GPIO      GPIOB    //假设四个IN为同一GPIO组
+#define MOTOR_PIN_AIN1  GPIO_Pin_14
+#define MOTOR_PIN_AIN2  GPIO_Pin_15
+#define MOTOR_PIN_BIN1  GPIO_Pin_13
+#define MOTOR_PIN_BIN2  GPIO_Pin_12
+
+#define MOTOR_PWM_RCC       RCC_APB2Periph_GPIOA
+#define MOTOR_PWM_GPIO      GPIOA       ////假设2个PWM为同一GPIO组
+#define MOTOR_PIN_PWMA      GPIO_Pin_8
+#define MOTOR_PIN_PWMB      GPIO_Pin_11
+#define MOTOR_PX_OUT PBout
+//宏的名字建议加MOTOR_前缀
+#define AIN1   MOTOR_PX_OUT(MOTOR_PIN_AIN1)
+#define AIN2   MOTOR_PX_OUT(MOTOR_PIN_AIN2)
+#define BIN1   MOTOR_PX_OUT(MOTOR_PIN_BIN1)
+#define BIN2   MOTOR_PX_OUT(MOTOR_PIN_BIN2)
+#define PWMA   TIM1->CCR1  //PA8
+#define PWMB   TIM1->CCR4  //PA11
+//轮趣平衡车B570：TB6612
 
 // 以下两种驱动只支持一种
-#define MOTOR_DRV8833
-//#define MOTOR_TB6612
+//#define MOTOR_DRV8833
+#define MOTOR_TB6612
 
 // 宏定义
 #define MOTOR_TURN_MODE_FORWARD  0

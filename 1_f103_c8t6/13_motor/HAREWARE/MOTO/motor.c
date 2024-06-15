@@ -16,9 +16,16 @@ void MOTOR_DRV8833Init(void)
 }
 
 
+/********************************************
+* @brief      电机驱动TB6612 GPIO初始化
+              //AIN1/2/BIN1/2作为方向控制
+* @param      void
+* @retval     void
+*********************************************/
 void MOTOR_TB6612Init(void)
 {
-
+    GPIO_Init_TB6612();         //初始化电机硬件接口，用于驱动电机. 
+    PWM_InitTb6612(7199,0);   //初始化PWM 10KHZ - 72M时钟/7.2k=10k
 }
 
 /********************************************
@@ -43,11 +50,11 @@ void MOTOR_Init(void)
 void MOTOR_TURN_TB6612(int mode)
 {
     if (mode==1) {
-        GPIO_SetBits(GPIOB, GPIO_Pin_7);	 // 高电平
-        GPIO_ResetBits(GPIOB, GPIO_Pin_8);	 // 低电平
+        GPIO_SetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN1);	 // 高电平
+        GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2);	 // 低电平
     } if (mode==0) {
-        GPIO_SetBits(GPIOB, GPIO_Pin_8);	 // 高电平
-        GPIO_ResetBits(GPIOB, GPIO_Pin_7);	 // 低电平
+        GPIO_SetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN2);	 // 高电平
+        GPIO_ResetBits(MOTOR_IN_GPIO, MOTOR_PIN_AIN1);	 // 低电平
     }
 }
 

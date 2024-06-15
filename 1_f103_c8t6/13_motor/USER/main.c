@@ -22,24 +22,33 @@ void TEST_DRV8833_RandomWalk(void);
 *********************************************/
 int main(void)
 {
-    //TEST_TB6612();
-    TEST_DRV8833();
+    TEST_TB6612();
+    //TEST_DRV8833();
 }
 
 //TB6612
 //Author:轮趣
 int TEST_TB6612(void)
 {	    
+    int pwmvalue = 2000;
+    static int  delaymsGap = 500;    
+    
     SystemInit(); //配置系统时钟为72M   
     delay_init();    //延时函数初始化
-    GPIO_Init_TB6612();    //初始化gpio口B pin_7/pin_8
-    TIM4_PWM_Init(7199,0);      //初始化pwm输出 72000 000 /7199+1=10000 
+    MOTOR_Init();
+    OLED_Init();   
+
+    OLED_ShowString(1, 1, "TB6612");    
+    OLED_ShowNum(2, 1, pwmvalue, 4);
+    OLED_ShowString(4, 1, "2024.6.15");  
 
     while(1) {       
         MOTOR_TURN_TB6612(0);                //moto=1时正转
-        TIM_SetCompare1(TIM4,3000);   //设置TIM4通道1的占空比  3000/7200
+        PWM_MOTORA_SetSpeed(pwmvalue);
+        delay_ms(delaymsGap);
         MOTOR_TURN_TB6612(1);                //moto=0时反转
-        TIM_SetCompare1(TIM4,4000);   //设置TIM4通道1的占空比  4000/7200
+        PWM_MOTORA_SetSpeed(pwmvalue);
+        delay_ms(delaymsGap);
     }
 }
 
