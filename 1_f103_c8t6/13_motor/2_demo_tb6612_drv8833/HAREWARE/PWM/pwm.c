@@ -43,7 +43,7 @@ void TIM4_PWM_Init(u16 arr,u16 psc)
  *@Author: xxy
  *@Date: 2024.6.15
 **************************************************************************/
-void PWM_TimBaseInit(u16 arr,u16 psc)
+void PWM_TimBaseInit(TIM_TypeDef* TIMx, u16 arr,u16 psc)
 {
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
 
@@ -51,7 +51,7 @@ void PWM_TimBaseInit(u16 arr,u16 psc)
     TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  不分频
     TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-    TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+    TIM_TimeBaseInit(TIMx, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
 }
 
 /**************************************************************************
@@ -78,7 +78,7 @@ void PWM_TimOCInit(TIM_TypeDef* TIMx)   //再传入一个通道掩码，比如CH1/4为0b1001 
  *@Author: 轮趣B570平衡车
  *@Date: 2024.6.15
 **************************************************************************/
-void PWM_InitTb6612(u16 arr,u16 psc)
+void PWM_InitTb6612(TIM_TypeDef* TIMx, u16 arr,u16 psc)
 {		 		
     TIM_TimeBaseInitTypeDef  TIM_TimeBaseStructure;
     TIM_OCInitTypeDef  TIM_OCInitStructure;
@@ -87,24 +87,24 @@ void PWM_InitTb6612(u16 arr,u16 psc)
     TIM_TimeBaseStructure.TIM_Prescaler =psc; //设置用来作为TIMx时钟频率除数的预分频值  不分频
     TIM_TimeBaseStructure.TIM_ClockDivision = 0; //设置时钟分割:TDTS = Tck_tim
     TIM_TimeBaseStructure.TIM_CounterMode = TIM_CounterMode_Up;  //TIM向上计数模式
-    TIM_TimeBaseInit(TIM1, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
+    TIM_TimeBaseInit(TIMx, &TIM_TimeBaseStructure); //根据TIM_TimeBaseInitStruct中指定的参数初始化TIMx的时间基数单位
 
     TIM_OCInitStructure.TIM_OCMode = TIM_OCMode_PWM1; //选择定时器模式:TIM脉冲宽度调制模式1
     TIM_OCInitStructure.TIM_OutputState = TIM_OutputState_Enable; //比较输出使能
     TIM_OCInitStructure.TIM_Pulse = 0;                            //设置待装入捕获比较寄存器的脉冲值
     TIM_OCInitStructure.TIM_OCPolarity = TIM_OCPolarity_High;     //输出极性:TIM输出比较极性高
-    TIM_OC1Init(TIM1, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
-    TIM_OC4Init(TIM1, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
-
+    TIM_OC1Init(TIMx, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
+    TIM_OC4Init(TIMx, &TIM_OCInitStructure);  //根据TIM_OCInitStruct中指定的参数初始化外设TIMx
+    TIM_OC1PreloadConfig(TIMx, TIM_OCPreload_Enable);  //CH1预装载使能	 
+    TIM_OC4PreloadConfig(TIMx, TIM_OCPreload_Enable);  //CH4预装载使能	 
+    
     // 使用这两个封装函数会驱动不了电机，原因待定位?
     //PWM_TimOCInit(TIM1);
     //PWM_TimBaseInit(arr,psc);
     
-    TIM_CtrlPWMOutputs(TIM1,ENABLE);	//MOE 主输出使能	
-    TIM_OC1PreloadConfig(TIM1, TIM_OCPreload_Enable);  //CH1预装载使能	 
-    TIM_OC4PreloadConfig(TIM1, TIM_OCPreload_Enable);  //CH4预装载使能	 
-    TIM_ARRPreloadConfig(TIM1, ENABLE); //使能TIMx在ARR上的预装载寄存器
-    TIM_Cmd(TIM1, ENABLE);  //使能TIM1
+    TIM_CtrlPWMOutputs(TIMx,ENABLE);	//MOE 主输出使能	
+    TIM_ARRPreloadConfig(TIMx, ENABLE); //使能TIMx在ARR上的预装载寄存器
+    TIM_Cmd(TIMx, ENABLE);  //使能TIM1
 } 
 
 

@@ -12,7 +12,7 @@ void TIM4_PWM_Init(u16 arr,u16 psc);
 void TIM2_PWM_2ChannelInit(u16 arr, u16 psc);
 void TIM3_PWM_2ChannelInit(u16 arr, u16 psc);
 
-void PWM_InitTb6612(u16 arr,u16 psc);
+void PWM_InitTb6612(TIM_TypeDef* TIMx, u16 arr,u16 psc);
 
 #endif
 

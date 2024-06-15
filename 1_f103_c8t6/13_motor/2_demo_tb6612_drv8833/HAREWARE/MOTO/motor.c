@@ -25,7 +25,7 @@ void MOTOR_TB6612Init(void)
 {
     GPIO_Init_TB6612();         //初始化电机硬件接口，用于驱动电机. 
     GPIO_Init_TB6612Pwm();
-    PWM_InitTb6612(7199,0);   //初始化PWM 10KHZ - 72M时钟/7.2k=10k
+    PWM_InitTb6612(TIM1, 7199,0);   //初始化PWM 10KHZ - 72M时钟/7.2k=10k
 }
 
 /********************************************
