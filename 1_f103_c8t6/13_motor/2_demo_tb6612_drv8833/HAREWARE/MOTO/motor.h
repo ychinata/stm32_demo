@@ -56,8 +56,11 @@
 #define AIN2   MOTOR_PX_OUT(MOTOR_PIN_AIN2)
 #define BIN1   MOTOR_PX_OUT(MOTOR_PIN_BIN1)
 #define BIN2   MOTOR_PX_OUT(MOTOR_PIN_BIN2)
+
 #define PWMA   TIM1->CCR1  //PA8
 #define PWMB   TIM1->CCR4  //PA11
+#define PWM_MOTORA_SetSpeed(x) TIM_SetCompare1(TIM1,x);  // PA8是T1C1,控制MOTOR_AIN
+#define PWM_MOTORB_SetSpeed(x) TIM_SetCompare4(TIM1,x);  // PA11是T1C4,控制MOTOR_BIN
 //轮趣平衡车B570：TB6612
 
 // 以下两种驱动只支持一种

@@ -8,10 +8,6 @@
 //#define PWM_MOTORB_SetSpeed(x) TIM_SetCompare1(TIM3,x);  // PA6是T3C1,控制MOTOR_BIN1
 #define PWM_SPEED_MAX 999
 
-//TB6612
-#define PWM_MOTORA_SetSpeed(x) TIM_SetCompare1(TIM1,x);  // PA8是T1C1,控制MOTOR_AIN1
-#define PWM_MOTORB_SetSpeed(x) TIM_SetCompare4(TIM1,x);  // PA11是T1C4,控制MOTOR_BIN1
-
 void TIM4_PWM_Init(u16 arr,u16 psc);
 void TIM2_PWM_2ChannelInit(u16 arr, u16 psc);
 void TIM3_PWM_2ChannelInit(u16 arr, u16 psc);
