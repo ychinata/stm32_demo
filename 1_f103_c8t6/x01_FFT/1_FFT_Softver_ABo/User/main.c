@@ -31,38 +31,21 @@ long Mag_data[NPT/2];//计算各次谐波幅值
  */
 
 /************************************************
-Date: 2022.8.23
-Author: h00421956
-Func:串口发送字节 
+Date: 2024.7.18
+Author: xxy
+Func:串口发送FFT结果 
 ************************************************/
-int main1(void) {
-    float fnum = 12.5556;
-	// init
+int main(void) {
+    int i=0,j=0, k=0;
+    
     LED_Init();
 	OLED_Init();
 	Serial_Init();
     
-    //OLED_ShowString(1, 1, "Serial Recev:");
-    // 4.OLED格式化显示  
-    
-    printf("串口发送功能测试\r\n");
-    printf("data=%f\r\n", fnum);
-    
-	// 0.串口发送功能测试
-	Serial_TxOnly_Test();
-	
-			    
-	while (1) {              	
-
-        
-	}
-}
-
-int main(void) {
-    int i=0,j=0, k=0;
+    printf("begin\r\n");
     
     while (1) {
-        printf("begin\r\n");
+        printf("aaa\r\n");
         for (j=0;j<NPT;j++) {
             s[j].real=data_in[j];
             s[j].imag=0;
